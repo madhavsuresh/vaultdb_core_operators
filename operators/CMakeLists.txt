@@ -1,0 +1,2 @@
+add_library(secure_operators SecureJoin.cpp Filter.cpp)
+target_link_libraries(secure_operators pqxx_compat krpc dataprovider)
