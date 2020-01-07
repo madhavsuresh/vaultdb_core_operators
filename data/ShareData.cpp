@@ -5,7 +5,7 @@
 #include "emp-tool/emp-tool.h"
 #include "emp-sh2pc/emp-sh2pc.h"
 
-void share_data(const UnsecureTable *input_table, int party) {
+unique_ptr<SecureTable> share_data(const UnsecureTable *input_table, int party) {
 
     unique_ptr<emp::Batcher> batcherAlice = make_unique<emp::Batcher>();
     unique_ptr<emp::Batcher> batcherBob = make_unique<emp::Batcher>();
@@ -19,6 +19,7 @@ void share_data(const UnsecureTable *input_table, int party) {
                 assert(bits.size() == input_table->get_schema()->get_field(j)->get_field_size());
                 for (int c = 0; c < input_table->get_schema()->get_field(j)->get_field_size(); c++) {
                     batcherAlice->add<emp::Bit>(bits[c]);
+                    std::cout << bits[c];
                 }
                 batcherAlice->add<emp::Bit>(input_table->get_tuple(i).is_dummy);
             } else if (party == emp::BOB) {
@@ -45,14 +46,17 @@ void share_data(const UnsecureTable *input_table, int party) {
                 assert(bits.size() == input_table->get_schema()->get_field(j)->get_field_size());
                 for (int c = 0; c < input_table->get_schema()->get_field(j)->get_field_size(); c++) {
                     batcherBob->add<emp::Bit>(bits[c]);
+                    std::cout << bits[c];
                 }
                 batcherBob->add<emp::Bit>(input_table->get_tuple(i).is_dummy);
+                std::cout << std::endl;
             }
         }
     }
     batcherBob->make_semi_honest(emp::BOB);
-    SecureTable st;
-    BaseData *bd = st.get_base_data();
+    auto st = make_unique<SecureTable>();
+    st->set_schema(input_table->schema.get());
+    BaseData *bd = st->get_base_data();
     std::cout << "Alice (" << batcherAlice->size() << "), (" << batcherBob->size() << std::endl;
     for (int i = 0; i < batcherAlice->size(); i++) {
         auto b = batcherAlice->next<emp::Bit>();
@@ -63,4 +67,6 @@ void share_data(const UnsecureTable *input_table, int party) {
         auto b = batcherBob->next<emp::Bit>();
         bd->copy_and_append(&b);
     }
+    st->set_num_tuples(alice_size + bob_size);
+    return st;
 }

@@ -71,7 +71,7 @@ std::unique_ptr<UnsecureTable> proto_to_unsecuretable(dbquery::Table t) {
                     f = make_shared<Field>(type, c.second.int32field(), c.first);
                     break;
                 case INTEGER64:
-                    f = make_shared<Field>(type, c.second.int32field(), c.first);
+                    f = make_shared<Field>(type, c.second.int64field(), c.first);
                     break;
                 case VARCHAR:
                     f = make_shared<Field>(type,c.second.strfield(), c.first);

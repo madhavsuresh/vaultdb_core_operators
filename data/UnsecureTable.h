@@ -88,6 +88,7 @@ struct Schema {
 private:
     std::map<int, std::unique_ptr<FieldDesc>> fields;
     int num_fields;
+    size_t length_of_tuple;
 public:
     [[nodiscard]] int get_num_fields() const;
 
@@ -95,7 +96,13 @@ public:
 
     void put_field(int, FieldDesc &fd);
 
+    size_t get_tuple_len();
+
+    size_t get_field_offset(int field_num) const;
+
     explicit Schema(int num_fields);
+
+    Schema(Schema &s);
 
     [[nodiscard]] FieldDesc *get_field(int i) const;
 };
@@ -140,12 +147,15 @@ struct UnsecureTable {
 struct BaseData {
 private:
     std::vector<std::unique_ptr<emp::Bit>> base_data;
-    std::vector<std::unique_ptr<emp::Bit>> dummy_tags;
 public:
     //[start, end)
     [[nodiscard]] std::vector<emp::Bit *> get_bit_range(int start, int end) const;
 
     void copy_and_append(std::vector<emp::Bit *> to_copy);
+
+    int get_length() const;
+
+    void set_bit_at_index(int bit_idx, emp::Bit *b);
 
     void copy_and_append(emp::Bit *to_copy);
 };
@@ -193,21 +203,34 @@ struct SecureTuple {
 struct SecureTable {
 private:
     int num_tuples;
-    int tuple_width;
+    int tuple_len;
     //TODO(madhavsuresh): come up with better name
     std::unique_ptr<BaseData> base_data;
     std::unique_ptr<Schema> schema;
     // enforce only one scope owning a tuple at a time.
     // there is probably a better way to do this.
-    std::vector<std::unique_ptr<SecureTuple>> tuples;
 public:
     SecureTable();
 
+    ~SecureTable();
+
+    void set_schema(Schema *s);
+
     [[nodiscard]] int get_num_tuples() const;
 
-    unique_ptr<SecureTuple> get_tuple(int index);
+    void set_num_tuples(int num_tuples);
 
-    void set_dummy(int index, emp::Bit val);
+    unique_ptr<SecureTuple> get_tuple(int idx);
+
+    emp::Bit *get_bit(int tuple_idx, int field_idx, int bit_idx);
+
+    std::vector<emp::Bit *> get_field_range(int tuple_idx, int field_idx) const;
+
+    size_t get_field_len(int field_idx);
+
+    size_t get_tuple_len() const;
+
+    void set_dummy(int tuple_idx, emp::Bit *val);
 
     BaseData *get_base_data();
 };

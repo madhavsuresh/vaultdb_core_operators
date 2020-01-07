@@ -20,7 +20,7 @@ TEST_F(pqxx_compat_test, get_schema) {
 }
 
 TEST_F(pqxx_compat_test, get_pq_table) {
-    dbquery::Table t = get_pq_table("dbname=tpch_sf1", "SELECT * FROM customer LIMIT 10");
+    dbquery::Table t = get_pq_table("dbname=tpch_sf1", "SELECT l_orderkey FROM lineitem LIMIT 10");
     std::cout << t.DebugString();
 }
 

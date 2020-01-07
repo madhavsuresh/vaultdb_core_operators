@@ -17,4 +17,7 @@ struct JoinDef {
     std::map<int, FieldMap> right_fields;
 };
 
+
+SecureTable emp_join(SecureTable *left, SecureTable *right, const JoinDef &def);
+
 #endif //TESTING_SECUREJOIN_H

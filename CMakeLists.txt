@@ -35,18 +35,20 @@ endif ()
 # the build wasn't working without explicitly including the gtest headers.
 include_directories("${gtest_SOURCE_DIR}/include")
 
-SET( CMAKE_EXPORT_COMPILE_COMMANDS ON )
-IF( EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json" )
-    EXECUTE_PROCESS( COMMAND ${CMAKE_COMMAND} -E copy_if_different
-	${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
-	${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
-	)
-ENDIF()
+SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+IF (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
+    EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
+            ${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
+            )
+ENDIF ()
 set(CMAKE_CXX_STANDARD 17)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=[sanitizer_name] [additional_options] [-g] [-OX]")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g")
-set(CMAKE_CXX_FLAGS "-fno-omit-frame-pointer -fsanitize=address -g")
+set(CMAKE_CXX_FLAGS "-fno-omit-frame-pointer -fsanitize=address -g -O0")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 #set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG} -g -fno-omit-frame-pointer -fsanitize=address")
 #set (CMAKE_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS_DEBUG} -g -fno-omit-frame-pointer -fsanitize=address")
 
@@ -69,7 +71,8 @@ include(${CMAKE_SOURCE_DIR}/lib/cmake/threading.cmake)
 message("hello ${OPENSSL_LIBRARIES}")
 message("wee ${EMP-OT_LIBRARIES}")
 add_executable(main main.cpp data/UnsecureTable.cpp data/UnsecureTable.h operators/Filter.cpp operators/Filter.h)
-target_link_libraries(main asan gflags pthread emp-tool gmp ${EMP-OT_LIBRARIES} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} dataprovider)
+target_link_libraries(main asan gflags pthread emp-tool gmp ${EMP-OT_LIBRARIES} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES}
+        dataprovider secure_operators)
 
 
 

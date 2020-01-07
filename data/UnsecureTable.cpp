@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cassert>
 #include "UnsecureTable.h"
+//#include "emp-tool/utils/block.h"
 
 Field::Field() : is_string(false), type(FieldType::INTEGER32), field_num(0) { throw; }
 
@@ -26,7 +27,7 @@ shared_ptr<Field> Tuple::get_field(int index) {
     return this->fields[index];
 }
 
-UnsecureTable::UnsecureTable() {}
+UnsecureTable::UnsecureTable() = default;
 
 int UnsecureTable::num_tuples() const {
     return this->tuples.size();
@@ -39,9 +40,10 @@ Schema *UnsecureTable::get_schema() const {
 
 Schema::Schema(int num_fields) {
     this->num_fields = num_fields;
+    this->length_of_tuple = 0;
 }
 
-void Schema::put_field(int index, FieldDesc& fd) {
+void Schema::put_field(int index, FieldDesc &fd) {
     this->fields.emplace(index, make_unique<FieldDesc>(fd));
 }
 
@@ -51,6 +53,33 @@ int Schema::get_num_fields() const {
 
 FieldDesc *Schema::get_field(int i) const {
     return this->fields.at(i).get();
+}
+
+size_t Schema::get_tuple_len() {
+    if (this->length_of_tuple == 0) {
+        for (int i = 0; i < this->num_fields; i++) {
+            //TODO(madhavsuresh): account for dummy with plus one
+            this->length_of_tuple += this->get_field(i)->get_field_size() + 1;
+        }
+    }
+    return this->length_of_tuple;
+}
+
+size_t Schema::get_field_offset(int idx) const {
+    int counter = 0;
+    for (int i = 0; i < idx; i++) {
+        //TODO(madhavsuresh): account for dummy with plus one
+        counter += this->get_field(i)->get_field_size();
+    }
+    return counter;
+}
+
+Schema::Schema(Schema &s) {
+    this->num_fields = s.get_num_fields();
+    this->length_of_tuple = s.get_tuple_len();
+    for (int i = 0; i < this->num_fields; i++) {
+        this->put_field(i, *s.get_field(i));
+    }
 }
 
 Field::Field(FieldType t, int64_t val, int fn) : is_string(false), type(t), field_num(fn) {
@@ -180,6 +209,44 @@ BaseData *SecureTable::get_base_data() {
 
 SecureTable::SecureTable() {
     base_data = make_unique<BaseData>();
+    this->num_tuples = 0;
+}
+
+size_t SecureTable::get_field_len(int field_idx) {
+    return schema->get_field(field_idx)->get_field_size();
+}
+
+size_t SecureTable::get_tuple_len() const {
+    return this->schema->get_tuple_len();
+}
+
+void SecureTable::set_dummy(int tuple_idx, emp::Bit *val) {
+    // TODO(madhavsuresh): For dummy bit appended at end. I think it's more clear
+    // if dummy bits are separate
+    int offset = tuple_idx * (this->get_tuple_len());
+    this->base_data->set_bit_at_index(offset, val);
+    throw;
+}
+
+emp::Bit *SecureTable::get_bit(int tuple_idx, int field_idx, int bit_idx) {
+    //base_data->get_bit_range();
+}
+
+std::vector<emp::Bit *> SecureTable::get_field_range(int tuple_idx, int field_idx) const {
+    return this->base_data->get_bit_range(tuple_idx * this->get_tuple_len() + schema->get_field_offset(field_idx),
+                                          tuple_idx * this->get_tuple_len()
+                                          + schema->get_field(field_idx)->get_field_size());
+}
+
+SecureTable::~SecureTable() {
+}
+
+void SecureTable::set_num_tuples(int num_tuples) {
+    this->num_tuples = num_tuples;
+}
+
+void SecureTable::set_schema(Schema *s) {
+    this->schema = make_unique<Schema>(*s);
 }
 
 std::vector<emp::Bit *> BaseData::get_bit_range(int start, int end) const {
@@ -187,9 +254,17 @@ std::vector<emp::Bit *> BaseData::get_bit_range(int start, int end) const {
     for (int i = start; i < end; i++) {
         range.push_back(base_data[i].get());
     }
-    return std::vector<emp::Bit *>();
+    return range;
 }
 
 void BaseData::copy_and_append(emp::Bit *to_copy) {
-    this->base_data.push_back(std::make_unique<emp::Bit>(to_copy));
+    this->base_data.push_back(std::make_unique<emp::Bit>(to_copy->bit));
+}
+
+int BaseData::get_length() const {
+    return base_data.size();
+}
+
+void BaseData::set_bit_at_index(int bit_idx, emp::Bit *b) {
+    memcpy(&base_data[bit_idx].get()->bit, &b->bit, sizeof(emp::block));
 }

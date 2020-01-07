@@ -7,40 +7,33 @@
 #include "SecureJoin.h"
 #include "emp-tool/emp-tool.h"
 
-
-emp::Bit run_join_equality_condition(SecureField *f1, SecureField *f2, const JoinDef def) {
-    if (f1->get_field_len() != f1->get_field_len()) {
-        emp::Bit b(false, emp::ALICE);
+std::unique_ptr<emp::Bit> equality(std::vector<emp::Bit *> r1, std::vector<emp::Bit *> r2) {
+    if (r1.size() != r2.size()) {
+        auto b = std::make_unique<emp::Bit>(false, emp::ALICE);
         return b;
     }
-    emp::Bit res(true, emp::ALICE);
-    for (int offset = 0; offset < f1->get_field_len(); offset++) {
-        res = res & (f1->get_bit(offset) == f2->get_bit(offset));
+    emp::Bit b(true);
+    for (int offset = 0; offset < r1.size(); offset++) {
+        b = b & (*r1[offset] == *r2[offset]);
     }
-    return res;
+    std::cout << std::endl;
+    return make_unique<emp::Bit>(b.bit);
 }
 
-void check_equality(SecureField f1, SecureField f2) {
-
+std::unique_ptr<emp::Bit>
+run_join_equality_condition(SecureTable *left, SecureTable *right, int left_idx, int right_idx, const JoinDef &def) {
+    auto left_bits = left->get_field_range(left_idx, def.left_index);
+    auto right_bits = right->get_field_range(right_idx, def.right_index);
+    auto eq = equality(left_bits, right_bits);
+    std::cout << "Left: " << left_idx << "; Right:" << right_idx << "|" << eq->reveal<bool>(emp::PUBLIC) << std::endl;
+    return eq;
 }
 
-//when merging, take two tuples, project out the fields that are needed, then copy the bits into a new base table.
-void merge_and_append(SecureTable *output, SecureTable *t1, SecureTable *t2, ) {
-}
-
-
-SecureTable emp_join(SecureTable *left, SecureTable *right, const JoinDef def) {
-    def.left_index;
-    def.right_index;
+SecureTable emp_join(SecureTable *left, SecureTable *right, const JoinDef &def) {
     //TODO(madhavsuresh): simple nested loop join
     for (int l_tup_idx = 0; l_tup_idx < left->get_num_tuples(); l_tup_idx++) {
         for (int r_tup_idx = 0; r_tup_idx < right->get_num_tuples(); r_tup_idx++) {
-            auto l_tup = left->get_tuple(l_tup_idx);
-            auto r_tup = right->get_tuple(r_tup_idx);
-            auto join_out = run_join_equality_condition(
-                    l_tup->get_field(def.left_index),
-                    r_tup->get_field(def.right_index),
-                    def);
+            auto eq = run_join_equality_condition(left, right, l_tup_idx, r_tup_idx, def);
         }
     }
 }

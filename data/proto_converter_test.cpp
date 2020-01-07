@@ -23,7 +23,7 @@ TEST_F(proto_converter_test, schema_conversion) {
 }
 
 TEST_F(proto_converter_test, table_conversion) {
-    auto table = get_pq_table("dbname=tpch_sf1", "SELECT * FROM customer LIMIT 10");
+    auto table = get_pq_table("dbname=tpch_sf1", "SELECT l_orderkey FROM lineitem LIMIT 10");
     auto t = proto_to_unsecuretable(table);
     for (int i = 0; i<t->num_tuples();i++) {
         std::cout << "(";
