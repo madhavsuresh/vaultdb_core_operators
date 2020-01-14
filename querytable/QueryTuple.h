@@ -11,43 +11,44 @@
 #include "QueryField.h"
 #include "DummyFlag.h"
 
-class QueryTuple {
-private:
-    int num_fields;
-    //TODO(madhavsuresh): this should be const
-    std::map<int, std::unique_ptr<const QueryField>> fields;
-    DummyFlag flag;
-public:
-    QueryTuple(QueryTuple &t);
+namespace vaultdb {
+    class QueryTuple {
+    private:
+        //TODO(madhavsuresh): this should be const
+        std::map<int, std::unique_ptr<const QueryField>> fields;
+        DummyFlag flag;
+    public:
+        QueryTuple(QueryTuple &t);
 
-    QueryTuple();
+        QueryTuple();
 
-    const QueryField *get_field(int ordinal) const;
+        const vaultdb::QueryField *get_field(int ordinal) const;
 
-    const QueryField *get_field(string name) const;
+        const vaultdb::QueryField &get_field(string name) const;
 
-    void put_field(int ordinal, QueryField &f);
+        void put_field(int ordinal, const vaultdb::QueryField &f);
 
-    void set_dummy_flag(emp::Bit &flag);
+        void set_dummy_flag(emp::Bit &flag);
 
-    void set_dummy_flag(bool flag);
+        void set_dummy_flag(bool flag);
 
-    /* Iterator Utilities */
-    typedef typename std::map<int, std::unique_ptr<const QueryField>>::iterator iterator;
-    typedef typename std::map<int, std::unique_ptr<const QueryField>>::const_iterator const_iterator;
+        /* Iterator Utilities */
+        typedef typename std::map<int, std::unique_ptr<const vaultdb::QueryField>>::iterator iterator;
+        typedef typename std::map<int, std::unique_ptr<const vaultdb::QueryField>>::const_iterator const_iterator;
 
-    iterator begin() { return fields.begin(); }
+        iterator begin() { return fields.begin(); }
 
-    const_iterator begin() const { return fields.begin(); }
+        const_iterator begin() const { return fields.begin(); }
 
-    const_iterator cbegin() const { return fields.cbegin(); }
+        const_iterator cbegin() const { return fields.cbegin(); }
 
-    iterator end() { return fields.end(); }
+        iterator end() { return fields.end(); }
 
-    const_iterator end() const { return fields.end(); }
+        const_iterator end() const { return fields.end(); }
 
-    const_iterator cend() const { return fields.cend(); }
-};
+        const_iterator cend() const { return fields.cend(); }
+    };
 
-
+}
 #endif //TESTING_QUERYTUPLE_H
+

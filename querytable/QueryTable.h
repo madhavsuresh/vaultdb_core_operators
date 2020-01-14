@@ -32,13 +32,13 @@ template <typename Iterator> DereferenceIterator<Iterator> dereference_iterator(
 
 class QueryTable {
 private:
-    std::vector<std::unique_ptr<QueryTuple>> tuples_;
+    std::vector<std::unique_ptr<vaultdb::QueryTuple>> tuples_;
     std::unique_ptr<QuerySchema> schema_;
 public:
-    typedef DereferenceIterator<std::vector<std::unique_ptr<QueryTuple>>::iterator> iterator;
-    typedef DereferenceIterator<std::vector<std::unique_ptr<QueryTuple>>::const_iterator> const_iterator;
+    typedef DereferenceIterator<std::vector<std::unique_ptr<vaultdb::QueryTuple>>::iterator> iterator;
+    typedef DereferenceIterator<std::vector<std::unique_ptr<vaultdb::QueryTuple>>::const_iterator> const_iterator;
     void set_schema(std::unique_ptr<QuerySchema> s);
-    void put_tuple(std::unique_ptr<QueryTuple> t);
+    void put_tuple(std::unique_ptr<vaultdb::QueryTuple> t);
 
     iterator begin() {return dereference_iterator(tuples_.begin());}
     const_iterator begin() const {return dereference_iterator(tuples_.begin());}

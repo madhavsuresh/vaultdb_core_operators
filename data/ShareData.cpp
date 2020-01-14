@@ -5,6 +5,18 @@
 #include "emp-tool/emp-tool.h"
 #include "emp-sh2pc/emp-sh2pc.h"
 
+unique_ptr<QueryTable> share_data(const QueryTable *input_table, int party) {
+    for (auto &t : *input_table) {
+        for (auto &field: t) {
+
+        }
+    }
+}
+
+unique_ptr<QueryTable> get_data(const QueryTable *input_table_to_mirror, int party, int length_to_receive) {
+
+}
+
 unique_ptr<SecureTable> share_data(const UnsecureTable *input_table, int party) {
 
     unique_ptr<emp::Batcher> batcherAlice = make_unique<emp::Batcher>();

@@ -10,7 +10,6 @@
 #include "operators/SecureJoin.h"
 
 
-using namespace emp;
 DEFINE_int32(party, 1, "party for EMP execution");
 DEFINE_int32(port, 43439, "port for EMP execution");
 DEFINE_string(hostname, "127.0.0.1", "hostname for execution");
@@ -20,7 +19,7 @@ DEFINE_int32(int_input, 10, "int_intput");
 
 int main(int argc, char **argv) {
     gflags::ParseCommandLineFlags(&argc, &argv, true /* remove_flags */);
-    NetIO *io = new NetIO(FLAGS_party == ALICE ? nullptr : FLAGS_hostname.c_str(), FLAGS_port);
+    emp::NetIO *io = new emp::NetIO(FLAGS_party == emp::ALICE ? nullptr : FLAGS_hostname.c_str(), FLAGS_port);
     setup_semi_honest(io, FLAGS_party);
 
     PQDataProvider pq = PQDataProvider();

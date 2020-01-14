@@ -8,6 +8,7 @@
 
 #include <string>
 #include <map>
+#include <utility>
 #include <vector>
 #include <memory>
 #include <variant>
@@ -25,16 +26,44 @@ enum FieldType {
 };
 
 class QueryFieldDesc {
-    QueryFieldDesc();
 
-    int column_number;
-    bool is_private;
-    std::string name;
-    FieldType type;
+private:
+    const int column_number;
+    const bool is_private;
+    const std::string name;
+    const FieldType type;
     // origin table name
-    std::string table_name;
-    QueryFieldDesc(QueryFieldDesc &f);
+    const std::string table_name;
+public:
+    [[nodiscard]] int get_column_number() const;
+
+
+    [[nodiscard]] bool get_is_private() const;
+
+
+    [[nodiscard]] const std::string &get_name() const;
+
+
+    [[nodiscard]] FieldType get_type() const;
+
+
+    [[nodiscard]] const std::string &get_table_name() const;
+
+
     [[nodiscard]] size_t get_field_size() const;
+
+
+    QueryFieldDesc(QueryFieldDesc &f) : column_number(f.column_number), is_private(f.is_private), name(f.name),
+                                        type(f.type), table_name(f.table_name) {};
+
+    QueryFieldDesc(QueryFieldDesc &f, int col_num) : column_number(col_num), is_private(f.is_private), name(f.name),
+                                        type(f.type), table_name(f.table_name) {};
+    QueryFieldDesc(int col_num, bool is_priv, const std::string &n, FieldType t, const std::string &tab) : column_number(col_num),
+                                                                                               is_private(is_priv),
+                                                                                               name(n), type(t),
+                                                                                               table_name(tab) {};
+
+
 };
 
 

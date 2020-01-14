@@ -41,4 +41,7 @@ TEST_F(proto_converter_test, query_table_conversion) {
     for (const auto &tup: *t) {
         std::cout << tup.get_field(0)->get_as<int64_t>() << ", " << tup.get_field(1)->get_as<int64_t>() << std::endl;
     }
+    QueryField *qf = new QueryFieldInt32(0,  1);
+    std::vector<QueryField> f;
+    qf->get_as<emp::Bit**>();
 }

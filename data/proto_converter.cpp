@@ -44,19 +44,14 @@ std::unique_ptr<Schema> proto_to_schema(const dbquery::Schema &proto_schema) {
 }
 
 std::unique_ptr<QuerySchema> proto_to_query_schema(const dbquery::Schema &proto_schema) {
-    /*
     auto s = std::make_unique<QuerySchema>(proto_schema.numcolumns());
     for (int i = 0; i < proto_schema.numcolumns(); i++) {
         auto col_info = proto_schema.column().at(i);
         col_info.type();
-        QueryFieldDesc fd;
-        fd.type = get_field_type((proto_schema.column().at(i).type()));
-        fd.column_number = i;
-        fd.name = proto_schema.column().at(i).name();
+        QueryFieldDesc fd(i, col_info.is_private(), col_info.name(), get_field_type(col_info.type()), col_info.tablename());
         s->put_field(i, fd);
     }
     return s;
-     */
 }
 
 FieldType proto_to_fieldtype(dbquery::OIDType oidtype) {
@@ -79,6 +74,7 @@ FieldType proto_to_fieldtype(dbquery::OIDType oidtype) {
 }
 
 std::unique_ptr<UnsecureTable> proto_to_unsecuretable(dbquery::Table t) {
+    t.SerializePartialAsString()
     auto table = make_unique<UnsecureTable>();
     table->schema = proto_to_schema(t.schema());
     for (auto &r: t.row()) {
@@ -111,7 +107,7 @@ std::unique_ptr<UnsecureTable> proto_to_unsecuretable(dbquery::Table t) {
 
 std::unique_ptr<QueryTable> proto_to_querytable(const dbquery::Table &t) {
     auto query_table = make_unique<QueryTable>();
-    //query_table->set_schema(proto_to_query_schema(t.schema()));
+    query_table->set_schema(proto_to_query_schema(t.schema()));
     for (auto &r : t.row()) {
         std::unique_ptr<QueryTuple> tup = std::make_unique<QueryTuple>();
         for (auto &c: r.column()) {

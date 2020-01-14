@@ -59,5 +59,6 @@ message ColumnInfo {
     string name = 1;
     OIDType type = 3;
     string tableName = 4;
+    bool is_private = 5;
 }
 
