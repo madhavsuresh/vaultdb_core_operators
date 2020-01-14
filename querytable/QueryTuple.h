@@ -26,6 +26,8 @@ public:
 
     const QueryField *get_field(string name) const;
 
+    void put_field(int ordinal, QueryField &f);
+
     void set_dummy_flag(emp::Bit &flag);
 
     void set_dummy_flag(bool flag);
