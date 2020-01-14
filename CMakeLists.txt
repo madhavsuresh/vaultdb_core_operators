@@ -63,6 +63,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 add_subdirectory(rpc)
 add_subdirectory(data)
 add_subdirectory(operators)
+add_subdirectory(querytable)
 #EMP-TOOLKIT OPTIONS
 include(${CMAKE_SOURCE_DIR}/lib/cmake/emp-tool-config.cmake)
 include(${CMAKE_SOURCE_DIR}/lib/cmake/common.cmake)

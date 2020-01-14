@@ -1,7 +1,7 @@
-add_library(pqxx_compat pqxx_compat.cpp pqxx_compat.h proto_converter.cpp proto_converter.h UnsecureTable.cpp ShareData.cpp ShareData.h)
+add_library(pqxx_compat pqxx_compat.cpp pqxx_compat.h proto_converter.cpp proto_converter.h UnsecureTable.cpp ShareData.cpp ShareData.h ../querytable/QueryTable.cpp ../querytable/QueryTable.h ../querytable/QueryTuple.cpp ../querytable/QueryTuple.h ../querytable/QueryField.cpp ../querytable/QueryField.h ../querytable/QuerySchema.cpp ../querytable/QuerySchema.h ../querytable/QueryFieldDesc.cpp ../querytable/QueryFieldDesc.h)
 target_link_libraries(pqxx_compat krpc pqxx pq)
 
-add_library(dataprovider DataProvider.cpp PQDataProvider.cpp)
+add_library(dataprovider DataProvider.cpp PQDataProvider.cpp ../querytable/QueryTable.cpp ../querytable/QueryTable.h)
 target_link_libraries(dataprovider pqxx_compat)
 
 add_executable(pqxx_compat_test pqxx_compat_test.cpp)
