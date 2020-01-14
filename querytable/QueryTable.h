@@ -10,21 +10,42 @@
 #include "QueryTuple.h"
 #include "QuerySchema.h"
 
+template <class BaseIterator> class DereferenceIterator : public BaseIterator {
+public:
+    using value_type = typename BaseIterator::value_type::element_type;
+    using pointer = value_type *;
+    using reference = value_type &;
+
+    explicit DereferenceIterator(const BaseIterator &other) : BaseIterator(other) {}
+
+    reference operator*() const { return *(this->BaseIterator::operator*()); }
+    pointer operator->() const { return this->BaseIterator::operator*().get(); }
+    reference operator[](size_t n) const {
+        return *(this->BaseIterator::operator[](n));
+    }
+};
+
+template <typename Iterator> DereferenceIterator<Iterator> dereference_iterator(Iterator t) {
+    return DereferenceIterator<Iterator>(t);
+}
+
+
 class QueryTable {
 private:
-    std::vector<std::unique_ptr<QueryTuple>> tuples;
-    std::unique_ptr<QuerySchema> schema;
+    std::vector<std::unique_ptr<QueryTuple>> tuples_;
+    std::unique_ptr<QuerySchema> schema_;
 public:
-    typedef typename std::vector<std::unique_ptr<QueryTuple>>::iterator iterator;
-    typedef typename std::vector<std::unique_ptr<QueryTuple>>::const_iterator const_iterator;
+    typedef DereferenceIterator<std::vector<std::unique_ptr<QueryTuple>>::iterator> iterator;
+    typedef DereferenceIterator<std::vector<std::unique_ptr<QueryTuple>>::const_iterator> const_iterator;
     void set_schema(std::unique_ptr<QuerySchema> s);
+    void put_tuple(std::unique_ptr<QueryTuple> t);
 
-    iterator begin() {return tuples.begin();}
-    const_iterator begin() const {return tuples.begin();}
-    const_iterator cbegin() const {return tuples.cbegin();}
-    iterator end() {return tuples.end();}
-    const_iterator end() const {return tuples.end();}
-    const_iterator cend() const {return tuples.cend();}
+    iterator begin() {return dereference_iterator(tuples_.begin());}
+    const_iterator begin() const {return dereference_iterator(tuples_.begin());}
+    const_iterator cbegin() const {return dereference_iterator(tuples_.cbegin());}
+    iterator end() {return dereference_iterator(tuples_.end());}
+    const_iterator end() const {return dereference_iterator(tuples_.end());}
+    const_iterator cend() const {return dereference_iterator(tuples_.cend());}
 };
 
 #endif //TESTING_QUERYTABLE_H

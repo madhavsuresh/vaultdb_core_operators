@@ -11,10 +11,12 @@
 #include <memory>
 #include <variant>
 #include "emp-tool/emp-tool.h"
+#include <querytable/QueryFieldDesc.h>
 
 
 using namespace std;
 
+/*
 enum FieldType {
     UNSUPPORTED,
     INTEGER32,
@@ -26,6 +28,7 @@ enum FieldType {
     TIME,
     BIGINT
 };
+ */
 
 struct FieldDesc {
     FieldDesc();

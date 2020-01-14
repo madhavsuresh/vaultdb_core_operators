@@ -28,6 +28,7 @@ class QueryFieldDesc {
     QueryFieldDesc();
 
     int column_number;
+    bool is_private;
     std::string name;
     FieldType type;
     // origin table name

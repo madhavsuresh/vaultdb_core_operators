@@ -33,36 +33,36 @@ public:
     QueryField(int32_t val, int field_num);
     QueryField(double val, int field_num);
     QueryField(char* val, int field_num);
+    QueryField(std::string val, int field_num);
+    [[nodiscard]] std::vector<bool> get_as_bits() const;
 
-    int64_t to(int64_t) {
+    [[nodiscard]] int64_t to(int64_t) const {
         return this->unencrypted_value.int64Value;
     }
 
-    int32_t to(int32_t) {
+    [[nodiscard]] int32_t to(int32_t) const {
         return this->unencrypted_value.int32Value;
     }
 
-    double to(double) {
+    [[nodiscard]] double to(double) const {
         return this->unencrypted_value.doubleValue;
     }
 
-    emp::Bit *to(emp::Bit *) {
+    emp::Bit *to(emp::Bit *) const {
         if (base_data.size() != 1) {
             throw;
         }
         return base_data[0].get();
     }
 
-    emp::Integer *to(emp::Integer *) {
-        std::vector<emp::Bit *> vec;
-        for (auto &a: base_data) {
-            vec.push_back(a.get());
+    emp::Integer *to(emp::Integer *) const {
+        if (empInt == nullptr) {
+            throw;
         }
-        empInt = std::make_unique<emp::Integer>(base_data.size(), vec.data());
         return empInt.get();
     }
 
-    emp::Bit **to(emp::Bit **) {
+    emp::Bit **to(emp::Bit **) const {
         std::vector<emp::Bit *> vec;
         for (auto &a: base_data) {
             vec.push_back(a.get());
@@ -71,13 +71,9 @@ public:
     }
 
     template<typename T>
-    T get_as() {
+    T get_as() const {
         T obj;
         return to(obj);
-    }
-
-    void testing() {
-
     }
 };
 

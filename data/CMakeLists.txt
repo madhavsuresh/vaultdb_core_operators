@@ -9,5 +9,5 @@ target_link_libraries(pqxx_compat_test pqxx_compat gtest_main profiler tcmalloc)
 add_test(NAME pqxx_compat COMMAND pqxx_compat_test)
 
 add_executable(proto_converter_test proto_converter_test.cpp)
-target_link_libraries(proto_converter_test pqxx_compat gtest_main profiler tcmalloc emp-tool)
+target_link_libraries(proto_converter_test pqxx_compat gtest_main profiler tcmalloc emp-tool query_table)
 add_test(NAME proto_converter COMMAND proto_converter_test)

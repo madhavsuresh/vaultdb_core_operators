@@ -5,12 +5,13 @@
 
 #include "proto_converter.h"
 #include "../querytable/QueryTable.h"
+#include "../querytable/QueryFieldDesc.h"
 #include "../querytable/QuerySchema.h"
 
 FieldType get_field_type(dbquery::OIDType type) {
     switch (type) {
         case dbquery::BIGINT:
-            return INTEGER64;
+            return FieldType::INTEGER64;
         case dbquery::INTEGER:
             return INTEGER32;
         case dbquery::VARCHAR:
@@ -59,22 +60,22 @@ std::unique_ptr<QuerySchema> proto_to_query_schema(const dbquery::Schema &proto_
 }
 
 FieldType proto_to_fieldtype(dbquery::OIDType oidtype) {
-    switch(oidtype) {
-    case dbquery::BIGINT:
-        return FieldType::INTEGER64;
-    case dbquery::INTEGER:
-        return FieldType::INTEGER32;
-    case dbquery::VARCHAR:
-        return FieldType::VARCHAR;
-    case dbquery::NUMERIC:
-    case dbquery::DOUBLE:
-        return FieldType::DOUBLE;
-    case dbquery::TIMESTAMP:
-    case dbquery::TIME:
-    case dbquery::UNSUPPORTED:
-    default:
-        throw;
-}
+    switch (oidtype) {
+        case dbquery::BIGINT:
+            return FieldType::INTEGER64;
+        case dbquery::INTEGER:
+            return FieldType::INTEGER32;
+        case dbquery::VARCHAR:
+            return FieldType::VARCHAR;
+        case dbquery::NUMERIC:
+        case dbquery::DOUBLE:
+            return FieldType::DOUBLE;
+        case dbquery::TIMESTAMP:
+        case dbquery::TIME:
+        case dbquery::UNSUPPORTED:
+        default:
+            throw;
+    }
 }
 
 std::unique_ptr<UnsecureTable> proto_to_unsecuretable(dbquery::Table t) {
@@ -93,10 +94,10 @@ std::unique_ptr<UnsecureTable> proto_to_unsecuretable(dbquery::Table t) {
                     f = make_shared<Field>(type, c.second.int64field(), c.first);
                     break;
                 case VARCHAR:
-                    f = make_shared<Field>(type,c.second.strfield(), c.first);
+                    f = make_shared<Field>(type, c.second.strfield(), c.first);
                     break;
                 case DOUBLE:
-                    f = make_shared<Field>(type,c.second.doublefield(), c.first);
+                    f = make_shared<Field>(type, c.second.doublefield(), c.first);
                     break;
                 default:
                     throw;
@@ -108,33 +109,34 @@ std::unique_ptr<UnsecureTable> proto_to_unsecuretable(dbquery::Table t) {
     return table;
 }
 
-std::unique_ptr<QueryTable> proto_to_querytable(dbquery::Table t) {
+std::unique_ptr<QueryTable> proto_to_querytable(const dbquery::Table &t) {
     auto query_table = make_unique<QueryTable>();
-    query_table->set_schema(proto_to_query_schema(t.schema()));
+    //query_table->set_schema(proto_to_query_schema(t.schema()));
     for (auto &r : t.row()) {
-        QueryTuple tup;
+        std::unique_ptr<QueryTuple> tup = std::make_unique<QueryTuple>();
         for (auto &c: r.column()) {
             FieldType type = proto_to_fieldtype(c.second.type());
             shared_ptr<Field> f;
+            unique_ptr<QueryField> qf;
             switch (type) {
                 case INTEGER32:
-                    f = make_shared<Field>(type, c.second.int32field(), c.first);
+                    qf = std::make_unique<QueryField>(c.second.int32field(), c.first);
                     break;
                 case INTEGER64:
-                    f = make_shared<Field>(type, c.second.int64field(), c.first);
+                    qf = std::make_unique<QueryField>(c.second.int64field(), c.first);
                     break;
                 case VARCHAR:
-                    f = make_shared<Field>(type,c.second.strfield(), c.first);
+                    qf = std::make_unique<QueryField>(c.second.strfield(), c.first);
                     break;
                 case DOUBLE:
-                    f = make_shared<Field>(type,c.second.doublefield(), c.first);
+                    qf = std::make_unique<QueryField>(c.second.doublefield(), c.first);
                     break;
                 default:
                     throw;
             }
-            tup.put_field(c.first, f);
+            tup->put_field(c.first, *qf);
         }
-        query_table->put_tuple(tup);
+        query_table->put_tuple(std::move(tup));
     }
-    }
+    return query_table;
 }

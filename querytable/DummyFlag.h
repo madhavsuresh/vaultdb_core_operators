@@ -11,7 +11,7 @@
 class DummyFlag {
 private:
     bool unencrypted_flag;
-    emp::Bit encrypted_flag;
+    std::unique_ptr<emp::Bit> encrypted_flag;
     bool is_encrypted;
 public:
 };

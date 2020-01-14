@@ -9,6 +9,12 @@ const QueryField *QueryTuple::get_field(int ordinal) const {
 }
 
 const QueryField* QueryTuple::get_field(string name) const {
-    for (auto &a: *this) {
-    }
+}
+
+void QueryTuple::put_field(int ordinal, QueryField &f) {
+    fields.emplace(ordinal, std::make_unique<QueryField>(f));
+}
+
+QueryTuple::QueryTuple(){
+
 }
