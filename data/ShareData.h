@@ -9,4 +9,4 @@
 
 unique_ptr<SecureTable> share_data(const UnsecureTable *input_table, int party);
 
-#endif //TESTING_SHAREDATA_H
+#endif // TESTING_SHAREDATA_H

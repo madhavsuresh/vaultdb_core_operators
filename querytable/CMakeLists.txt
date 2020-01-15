@@ -1,1 +1,1 @@
-add_library(query_table QueryFieldDesc.cpp QuerySchema.cpp QueryField.cpp QueryTuple.cpp QueryTable.cpp DummyFlag.cpp DummyFlag.h TableManager.cpp TableManager.h)
+add_library(query_table query_field_desc.cpp query_schema.cpp query_field.cpp query_tuple.cpp query_table.cpp dummy_flag.cpp dummy_flag.h table_manager.cpp table_manager.h)

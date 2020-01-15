@@ -7,7 +7,7 @@
 #include "data/UnsecureTable.h"
 #include "data/PQDataProvider.h"
 #include "data/ShareData.h"
-#include "operators/SecureJoin.h"
+#include "operators/secure_join.h"
 
 
 DEFINE_int32(party, 1, "party for EMP execution");
