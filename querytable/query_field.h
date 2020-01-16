@@ -10,12 +10,13 @@
 #include <memory>
 #include <vector>
 
-namespace vaultdb {
+namespace vaultdb::querytable {
+
 enum VaultType { INT32, VARCHAR_ };
 
 class QueryField {
 private:
-  bool is_encrypted;
+  bool is_encrypted_;
   std::vector<std::unique_ptr<emp::Bit>> base_data;
   std::unique_ptr<emp::Integer> empInt;
   int bit_length;
@@ -95,5 +96,5 @@ private:
 public:
   QueryFieldInt64(int64_t val, int fieldNum) : QueryField(val, fieldNum) {}
 };
-} // namespace vaultdb
+} // namespace vaultdb::querytable
 #endif // TESTING_QUERY_FIELD_H

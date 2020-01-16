@@ -32,7 +32,7 @@ std::vector<bool> QueryField::get_as_bits() const {
 
 QueryField::QueryField(const QueryField &qf)
     : field_num(qf.field_num), type(qf.type), is_string(qf.is_string),
-      bit_length(qf.bit_length), is_encrypted(qf.is_encrypted),
+      bit_length(qf.bit_length), is_encrypted_(qf.is_encrypted_),
       unencrypted_value(qf.unencrypted_value) {
   for (auto &b : qf.base_data) {
     base_data.emplace_back(std::make_unique<emp::Bit>(b->bit));
