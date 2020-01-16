@@ -63,6 +63,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 add_subdirectory(rpc)
 add_subdirectory(data)
 add_subdirectory(operators)
+add_subdirectory(querytable)
 #EMP-TOOLKIT OPTIONS
 include(${CMAKE_SOURCE_DIR}/lib/cmake/emp-tool-config.cmake)
 include(${CMAKE_SOURCE_DIR}/lib/cmake/common.cmake)
@@ -70,7 +71,7 @@ include(${CMAKE_SOURCE_DIR}/lib/cmake/source_of_randomness.cmake)
 include(${CMAKE_SOURCE_DIR}/lib/cmake/threading.cmake)
 message("hello ${OPENSSL_LIBRARIES}")
 message("wee ${EMP-OT_LIBRARIES}")
-add_executable(main main.cpp data/UnsecureTable.cpp data/UnsecureTable.h operators/Filter.cpp operators/Filter.h)
+add_executable(main main.cpp data/UnsecureTable.cpp data/UnsecureTable.h operators/filter.cpp operators/filter.h common/macros.h)
 target_link_libraries(main asan gflags pthread emp-tool gmp ${EMP-OT_LIBRARIES} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES}
         dataprovider secure_operators)
 

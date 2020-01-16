@@ -14,14 +14,14 @@ using namespace std;
 
 class DBQueryClient {
 public:
-    DBQueryClient(shared_ptr<grpc::Channel> channel)
-            : stub_(JDBCReader::NewStub(channel)) {}
+  DBQueryClient(shared_ptr<grpc::Channel> channel)
+      : stub_(JDBCReader::NewStub(channel)) {}
 
-    Table GetTable(string sqlString, string dbString, string user, string password);
+  Table GetTable(string sqlString, string dbString, string user,
+                 string password);
 
 private:
-    unique_ptr<JDBCReader::Stub> stub_;
+  unique_ptr<JDBCReader::Stub> stub_;
 };
 
-
-#endif //TESTING_DBQUERYCLIENT_H
+#endif // TESTING_DBQUERYCLIENT_H
