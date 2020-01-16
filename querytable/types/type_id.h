@@ -2,10 +2,9 @@
 // Created by madhav on 1/15/20.
 //
 
-#ifndef TESTING_TYPE_H
-#define TESTING_TYPE_H
-namespace vaultdb {
-namespace types {
+#ifndef TESTING_TYPE_ID_H
+#define TESTING_TYPE_ID_H
+namespace vaultdb::types {
 enum class TypeId {
   INTEGER32,
   INTEGER64,
@@ -19,7 +18,6 @@ enum class TypeId {
   VARCHAR
 };
 
-} // end namespace types
-} // end namespace vaultdb
+} // namespace vaultdb::types
 
-#endif // TESTING_TYPE_H
+#endif // TESTING_TYPE_ID_H

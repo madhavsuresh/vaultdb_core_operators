@@ -2,9 +2,22 @@
 // Created by madhav on 1/15/20.
 //
 
-#ifndef TESTING_BOOLRESULT_H
-#define TESTING_BOOLRESULT_H
+#ifndef TESTING_BOOL_RESULT_H
+#define TESTING_BOOL_RESULT_H
 
-class BoolResult {};
+#include "emp-tool/emp-tool.h"
+#include <memory>
+namespace vaultdb::types {
+class BoolResult {
+public:
+  BoolResult(emp::Bit bit);
+  BoolResult(bool bit);
 
-#endif // TESTING_BOOLRESULT_H
+protected:
+  const bool is_encrypted_;
+  std::unique_ptr<emp::Bit> encrypted_bit_;
+  bool unencrypted_bit_{};
+};
+} // namespace vaultdb::types
+
+#endif // TESTING_BOOL_RESULT_H
