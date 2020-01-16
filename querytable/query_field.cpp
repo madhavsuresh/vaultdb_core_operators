@@ -41,7 +41,8 @@ QueryField::QueryField(const QueryField &qf)
 
 QueryField::QueryField(int64_t val, int fn)
     : is_string(false), type(FieldType::INTEGER64), field_num(fn) {
-  unencrypted_value.int64Value = val;
+  value_ =
+      std::make_unique<vaultdb::types::Value>(types::TypeId::INTEGER64, val);
 }
 
 QueryField::QueryField(int32_t val, int fn)

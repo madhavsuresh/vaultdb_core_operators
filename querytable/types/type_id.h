@@ -6,6 +6,7 @@
 #define TESTING_TYPE_ID_H
 namespace vaultdb::types {
 enum class TypeId {
+  INVALID = 0,
   INTEGER32,
   INTEGER64,
   FLOAT32,

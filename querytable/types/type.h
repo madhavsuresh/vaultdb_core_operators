@@ -2,14 +2,14 @@
 // Created by madhav on 1/15/20.
 //
 
-#ifndef TESTING_TYPE_H
-#define TESTING_TYPE_H
+#pragma once
 #include "bool_result.h"
 #include "type_id.h"
 #include "value.h"
 #include <memory>
 
 namespace vaultdb::types {
+class Value;
 
 class Type {
 public:
@@ -29,4 +29,3 @@ protected:
 };
 
 } // namespace vaultdb::types
-#endif // TESTING_TYPE_H

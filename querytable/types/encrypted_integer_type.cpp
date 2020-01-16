@@ -7,7 +7,7 @@
 namespace vaultdb::types {
 #define EMP_INT_CMP(OP)                                                        \
   do {                                                                         \
-    emp::Bit b = left.value_.emp_integer OP right.value_.emp_integer;          \
+    emp::Bit b = left.value_.emp_integer_ OP right.value_.emp_integer_;          \
     std::unique_ptr<BoolResult> res = std::make_unique<BoolResult>(b);         \
     return res;                                                                \
   } while (0)

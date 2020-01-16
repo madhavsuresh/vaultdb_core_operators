@@ -9,14 +9,18 @@
 #include "query_field_desc.h"
 #include <memory>
 #include <vector>
+#include "types/value.h"
 
-namespace vaultdb::querytable {
+namespace vaultdb {
 
-enum VaultType { INT32, VARCHAR_ };
 
 class QueryField {
 private:
   bool is_encrypted_;
+
+  const int field_num;
+  std::unique_ptr<types::Value> value_;
+  //TODO(madhavsuresh): Deprecated, removed all below.
   std::vector<std::unique_ptr<emp::Bit>> base_data;
   std::unique_ptr<emp::Integer> empInt;
   int bit_length;
@@ -28,7 +32,6 @@ private:
   } unencrypted_value{};
   const bool is_string;
   const FieldType type;
-  const int field_num;
 
 public:
   QueryField(const QueryField &qf);

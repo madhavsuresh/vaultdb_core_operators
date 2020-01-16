@@ -10,11 +10,13 @@ namespace vaultdb::types {
     switch (left.type_) {                                                      \
     case TypeId::INTEGER32: {                                                  \
       return std::make_unique<BoolResult>(                                     \
-          left.value_.int32_val OP right.value_.int32_val);                    \
+          left.value_.unencrypted_val.int32_val OP                             \
+              right.value_.unencrypted_val.int32_val);                         \
     }                                                                          \
     case TypeId::INTEGER64: {                                                  \
       return std::make_unique<BoolResult>(                                     \
-          left.value_.int64_val OP right.value_.int64_val);                    \
+          left.value_.unencrypted_val.int64_val OP                             \
+              right.value_.unencrypted_val.int64_val);                         \
       break;                                                                   \
     }                                                                          \
     default:                                                                   \
