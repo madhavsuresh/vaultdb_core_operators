@@ -74,7 +74,7 @@ FieldType proto_to_fieldtype(dbquery::OIDType oidtype) {
 }
 
 std::unique_ptr<UnsecureTable> proto_to_unsecuretable(dbquery::Table t) {
-  t.SerializePartialAsString() auto table = make_unique<UnsecureTable>();
+  auto table = make_unique<UnsecureTable>();
   table->schema = proto_to_schema(t.schema());
   for (auto &r : t.row()) {
     Tuple tup;
