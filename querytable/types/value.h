@@ -5,6 +5,7 @@
 #ifndef TESTING_VALUE_H
 #define TESTING_VALUE_H
 #include "emp-tool/emp-tool.h"
+#include "type.h"
 #include "type_id.h"
 #include <cstdint>
 #include <memory>
@@ -17,6 +18,9 @@ public:
   friend class ArithmeticType;
   friend class EncryptedIntegerType;
   friend class IntegerType;
+  Value(TypeId type, int32_t val);
+  Value(TypeId type, int64_t val);
+
 protected:
   const bool is_encrypted_;
   const TypeId type_;

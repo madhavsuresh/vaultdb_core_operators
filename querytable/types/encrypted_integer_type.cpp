@@ -2,9 +2,8 @@
 // Created by madhav on 1/15/20.
 //
 
-#include "encrypted_integer_type.h"
 #include <common/macros.h>
-
+#include "encrypted_integer_type.h"
 namespace vaultdb::types {
 #define EMP_INT_CMP(OP)                                                        \
   do {                                                                         \

@@ -3,6 +3,7 @@
 //
 
 #include "integer_type.h"
+
 namespace vaultdb::types {
 #define INT_CMP(OP)                                                            \
   do {                                                                         \

@@ -7,6 +7,7 @@
 
 #include "emp-tool/emp-tool.h"
 #include <memory>
+
 namespace vaultdb::types {
 class BoolResult {
 public:

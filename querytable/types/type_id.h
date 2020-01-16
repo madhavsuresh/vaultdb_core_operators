@@ -15,7 +15,9 @@ enum class TypeId {
   TIMESTAMP,
   TIME,
   DATE,
-  VARCHAR
+  VARCHAR,
+  ENCRYPTED_INTEGER32,
+  ENCRYPTED_INTEGER64
 };
 
 } // namespace vaultdb::types
