@@ -1,1 +1,11 @@
-add_library(query_table query_field_desc.cpp query_schema.cpp query_field.cpp query_tuple.cpp query_table.cpp dummy_flag.cpp dummy_flag.h table_manager.cpp table_manager.h types/value.cpp types/value.h types/type_id.h types/arithmetic_type.cpp types/arithmetic_type.h types/type.cpp types/type.h types/encrypted_integer_type.cpp types/encrypted_integer_type.h types/bool_result.cpp types/bool_result.h)
+add_library(query_table
+        query_field_desc.cpp
+        query_schema.cpp
+        query_field.cpp
+        query_tuple.cpp
+        query_table.cpp
+        dummy_flag.cpp
+        dummy_flag.h
+        table_manager.cpp
+        table_manager.h)
+add_subdirectory(types)
