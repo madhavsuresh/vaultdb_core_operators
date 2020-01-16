@@ -14,9 +14,8 @@
 namespace vaultdb {
 class QueryTuple {
 private:
-  // TODO(madhavsuresh): this should be const
-  std::map<int, std::unique_ptr<const QueryField>> fields;
-  DummyFlag flag;
+  std::map<int, std::unique_ptr<const QueryField>> fields_;
+  DummyFlag flag_;
 
 public:
   QueryTuple(QueryTuple &t);
@@ -24,13 +23,10 @@ public:
   QueryTuple();
 
   const vaultdb::QueryField *get_field(int ordinal) const;
-
   const vaultdb::QueryField &get_field(string name) const;
-
   void put_field(int ordinal, const vaultdb::QueryField &f);
-
+  [[nodiscard]] bool is_equal(const QueryField &f) const;
   void set_dummy_flag(emp::Bit &flag);
-
   void set_dummy_flag(bool flag);
 
   /* Iterator Utilities */
@@ -38,18 +34,12 @@ public:
       int, std::unique_ptr<const vaultdb::QueryField>>::iterator iterator;
   typedef typename std::map<int, std::unique_ptr<const vaultdb::QueryField>>::
       const_iterator const_iterator;
-
-  iterator begin() { return fields.begin(); }
-
-  const_iterator begin() const { return fields.begin(); }
-
-  const_iterator cbegin() const { return fields.cbegin(); }
-
-  iterator end() { return fields.end(); }
-
-  const_iterator end() const { return fields.end(); }
-
-  const_iterator cend() const { return fields.cend(); }
+  iterator begin() { return fields_.begin(); }
+  const_iterator begin() const { return fields_.begin(); }
+  const_iterator cbegin() const { return fields_.cbegin(); }
+  iterator end() { return fields_.end(); }
+  const_iterator end() const { return fields_.end(); }
+  const_iterator cend() const { return fields_.cend(); }
 };
 
 } // namespace vaultdb
