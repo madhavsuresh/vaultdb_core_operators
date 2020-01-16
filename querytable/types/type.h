@@ -19,6 +19,10 @@ public:
   virtual std::unique_ptr<BoolResult> CompareEquals(const Value &left, const Value &right) const;
   virtual std::unique_ptr<BoolResult> CompareNotEquals(const Value &left, const Value &right) const;
 
+  friend class ArithmeticType;
+  friend class IntegerType;
+  friend class EncryptedIntegerType;
+
 protected:
   TypeId type_id_;
 };

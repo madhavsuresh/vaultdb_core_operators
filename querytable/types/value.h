@@ -16,6 +16,7 @@ public:
   friend class Type;
   friend class ArithmeticType;
   friend class EncryptedIntegerType;
+  friend class IntegerType;
 protected:
   const bool is_encrypted_;
   const TypeId type_;
