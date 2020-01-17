@@ -4,9 +4,9 @@
 
 #include "PQDataProvider.h"
 
-unique_ptr<UnsecureTable> PQDataProvider::get_table(std::string dbname,
+unique_ptr<UnsecureTable> PQDataProvider::GetTable(std::string dbname,
                                                     std::string query_string) {
-  auto proto_table = get_pq_table(dbname, query_string);
-  auto t = proto_to_unsecuretable(proto_table);
+  auto proto_table = GetPqTable(dbname, query_string);
+  auto t = ProtoToUnsecuretable(proto_table);
   return t;
 }

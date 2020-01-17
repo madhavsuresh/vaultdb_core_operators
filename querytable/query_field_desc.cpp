@@ -4,19 +4,19 @@
 
 #include "query_field_desc.h"
 
-int QueryFieldDesc::get_column_number() const {
+int QueryFieldDesc::GetColumnNumber() const {
   return QueryFieldDesc::column_number;
 }
 
-bool QueryFieldDesc::get_is_private() const {
+bool QueryFieldDesc::GetIsPrivate() const {
   return QueryFieldDesc::is_private;
 }
 
-const std::string &QueryFieldDesc::get_name() const {
+const std::string &QueryFieldDesc::GetName() const {
   return QueryFieldDesc::name;
 }
 
-FieldType QueryFieldDesc::get_type() const { return QueryFieldDesc::type; }
-const std::string &QueryFieldDesc::get_table_name() const {
+FieldType QueryFieldDesc::GetType() const { return QueryFieldDesc::type; }
+const std::string &QueryFieldDesc::GetTableName() const {
   return QueryFieldDesc::table_name;
 }

@@ -10,7 +10,7 @@
 
 class DataProvider {
 public:
-  unique_ptr<UnsecureTable> get_table(std::string dbname,
+  unique_ptr<UnsecureTable> GetTable(std::string dbname,
                                       std::string query_string);
 };
 

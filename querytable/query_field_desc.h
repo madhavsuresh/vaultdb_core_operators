@@ -35,17 +35,17 @@ private:
   const std::string table_name;
 
 public:
-  [[nodiscard]] int get_column_number() const;
+  [[nodiscard]] int GetColumnNumber() const;
 
-  [[nodiscard]] bool get_is_private() const;
+  [[nodiscard]] bool GetIsPrivate() const;
 
-  [[nodiscard]] const std::string &get_name() const;
+  [[nodiscard]] const std::string &GetName() const;
 
-  [[nodiscard]] FieldType get_type() const;
+  [[nodiscard]] FieldType GetType() const;
 
-  [[nodiscard]] const std::string &get_table_name() const;
+  [[nodiscard]] const std::string &GetTableName() const;
 
-  [[nodiscard]] size_t get_field_size() const;
+  [[nodiscard]] size_t GetFieldSize() const;
 
   QueryFieldDesc(QueryFieldDesc &f)
       : column_number(f.column_number), is_private(f.is_private), name(f.name),

@@ -22,12 +22,12 @@ public:
 
   QueryTuple();
 
-  const vaultdb::QueryField *get_field(int ordinal) const;
-  const vaultdb::QueryField &get_field(string name) const;
-  void put_field(int ordinal, const vaultdb::QueryField &f);
-  [[nodiscard]] bool is_equal(const QueryField &f) const;
-  void set_dummy_flag(emp::Bit &flag);
-  void set_dummy_flag(bool flag);
+  const vaultdb::QueryField *GetField(int ordinal) const;
+  const vaultdb::QueryField &GetField(string name) const;
+  void PutField(int ordinal, const vaultdb::QueryField &f);
+  [[nodiscard]] bool IsEqual(const QueryField &f) const;
+  void SetDummyFlag(emp::Bit &flag);
+  void SetDummyFlag(bool flag);
 
   /* Iterator Utilities */
   typedef typename std::map<

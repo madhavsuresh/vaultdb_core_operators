@@ -6,16 +6,16 @@
 
 using namespace vaultdb;
 
-const QueryField *QueryTuple::get_field(int ordinal) const {
+const QueryField *QueryTuple::GetField(int ordinal) const {
   return this->fields_.at(ordinal).get();
 }
 
 
-void QueryTuple::put_field(int ordinal, const QueryField &f) {
+void QueryTuple::PutField(int ordinal, const QueryField &f) {
   fields_.emplace(ordinal, std::make_unique<QueryField>(f));
 }
 
-bool QueryTuple::is_equal(const QueryField &f) const {
+bool QueryTuple::IsEqual(const QueryField &f) const {
 }
 
 

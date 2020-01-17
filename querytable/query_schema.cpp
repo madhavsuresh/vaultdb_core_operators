@@ -5,7 +5,7 @@
 #include "query_schema.h"
 
 QuerySchema::QuerySchema(int num_fields) {}
-void QuerySchema::put_field(int index, QueryFieldDesc &fd) {
+void QuerySchema::PutField(int index, QueryFieldDesc &fd) {
   QuerySchema::fields.emplace(index,
                               std::make_unique<QueryFieldDesc>(fd, index));
 }

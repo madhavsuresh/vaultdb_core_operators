@@ -44,8 +44,8 @@ public:
   typedef DereferenceIterator<
       std::vector<std::unique_ptr<vaultdb::QueryTuple>>::const_iterator>
       const_iterator;
-  void set_schema(std::unique_ptr<QuerySchema> s);
-  void put_tuple(std::unique_ptr<vaultdb::QueryTuple> t);
+  void SetSchema(std::unique_ptr<QuerySchema> s);
+  void PutTuple(std::unique_ptr<vaultdb::QueryTuple> t);
 
   iterator begin() { return dereference_iterator(tuples_.begin()); }
   const_iterator begin() const { return dereference_iterator(tuples_.begin()); }

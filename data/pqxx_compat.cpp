@@ -43,7 +43,7 @@ OIDType get_OID_field_type(pqxx::oid oid) {
   }
 }
 
-const Schema get_schema_from_query(pqxx::result res) {
+const Schema GetSchemaFromQuery(pqxx::result res) {
   Schema schema;
   schema.set_numcolumns(res.columns());
   for (int i = 0; i < schema.numcolumns(); i++) {
@@ -98,9 +98,9 @@ Table get_table_from_query(pqxx::result &res, Schema &schema) {
   return t;
 }
 
-Table get_pq_table(string dbname, string query_string) {
+Table GetPqTable(string dbname, string query_string) {
   auto res = query(dbname, query_string);
-  Schema schema = get_schema_from_query(res);
+  Schema schema = GetSchemaFromQuery(res);
   Table table = get_table_from_query(res, schema);
   table.mutable_schema()->CopyFrom(schema);
   return table;

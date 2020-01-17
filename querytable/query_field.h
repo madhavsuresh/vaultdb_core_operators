@@ -46,7 +46,7 @@ public:
 
   QueryField(std::string val, int field_num);
 
-  [[nodiscard]] std::vector<bool> get_as_bits() const;
+  [[nodiscard]] std::vector<bool> GetAsBits() const;
 
   [[nodiscard]] int64_t to(int64_t) const {
     return this->unencrypted_value.int64Value;

@@ -5,7 +5,7 @@
 #include "query_field.h"
 using namespace vaultdb;
 
-std::vector<bool> QueryField::get_as_bits() const {
+std::vector<bool> QueryField::GetAsBits() const {
   std::vector<bool> bits;
   switch (type) {
   case INTEGER32:

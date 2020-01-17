@@ -11,11 +11,11 @@
 
 class TableManager {
 private:
-  std::map<std::string, std::unique_ptr<QueryTable>> table_map;
+  std::map<std::string, std::unique_ptr<QueryTable>> table_map_;
 
 public:
-  QueryTable *get_table(std::string s) const;
-  void insert_table(std::string s, std::unique_ptr<QueryTable>);
+  QueryTable *GetTable(std::string s) const;
+  void InsertTable(std::string s, std::unique_ptr<QueryTable>);
 };
 
 #endif // TESTING_TABLE_MANAGER_H

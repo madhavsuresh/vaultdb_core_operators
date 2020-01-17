@@ -23,10 +23,11 @@ int main(int argc, char **argv) {
     setup_semi_honest(io, FLAGS_party);
 
     PQDataProvider pq = PQDataProvider();
-    auto t = pq.get_table("dbname=tpch_sf1", "SELECT l_orderkey FROM lineitem LIMIT 10");
-    auto shared = share_data(t.get(), FLAGS_party);
+    auto t = pq.GetTable("dbname=tpch_sf1",
+                         "SELECT l_orderkey FROM lineitem LIMIT 10");
+    auto shared = ShareData(t.get(), FLAGS_party);
 
     JoinDef x = {.left_index = 0, .right_index=0};
-    emp_join(shared.get(), shared.get(), x);
+    EmpJoin(shared.get(), shared.get(), x);
     //shared.reset();
 }
