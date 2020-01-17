@@ -7,7 +7,7 @@
 #include "querytable/query_schema.h"
 #include "querytable/query_table.h"
 
-FieldType get_field_type(dbquery::OIDType type) {
+FieldType GetFieldType(dbquery::OIDType type) {
   switch (type) {
   case dbquery::BIGINT:
     return FieldType::INTEGER64;
@@ -33,7 +33,7 @@ std::unique_ptr<Schema> ProtoToSchema(const dbquery::Schema &proto_schema) {
     auto col_info = proto_schema.column().at(i);
     col_info.type();
     FieldDesc fd;
-    fd.type = get_field_type((proto_schema.column().at(i).type()));
+    fd.type = GetFieldType((proto_schema.column().at(i).type()));
     fd.column_number = i;
     fd.name = proto_schema.column().at(i).name();
     s->put_field(i, fd);
@@ -42,19 +42,19 @@ std::unique_ptr<Schema> ProtoToSchema(const dbquery::Schema &proto_schema) {
 }
 
 std::unique_ptr<QuerySchema>
-proto_to_query_schema(const dbquery::Schema &proto_schema) {
+ProtoToQuerySchema(const dbquery::Schema &proto_schema) {
   auto s = std::make_unique<QuerySchema>(proto_schema.numcolumns());
   for (int i = 0; i < proto_schema.numcolumns(); i++) {
     auto col_info = proto_schema.column().at(i);
     col_info.type();
     QueryFieldDesc fd(i, col_info.is_private(), col_info.name(),
-                      get_field_type(col_info.type()), col_info.tablename());
+                      GetFieldType(col_info.type()), col_info.tablename());
     s->PutField(i, fd);
   }
   return s;
 }
 
-FieldType proto_to_fieldtype(dbquery::OIDType oidtype) {
+FieldType ProtoToFieldtype(dbquery::OIDType oidtype) {
   switch (oidtype) {
   case dbquery::BIGINT:
     return FieldType::INTEGER64;
@@ -79,7 +79,7 @@ std::unique_ptr<UnsecureTable> ProtoToUnsecuretable(dbquery::Table t) {
   for (auto &r : t.row()) {
     Tuple tup;
     for (auto &c : r.column()) {
-      FieldType type = proto_to_fieldtype(c.second.type());
+      FieldType type = ProtoToFieldtype(c.second.type());
       shared_ptr<Field> f;
       switch (type) {
       case INTEGER32:
@@ -106,11 +106,11 @@ std::unique_ptr<UnsecureTable> ProtoToUnsecuretable(dbquery::Table t) {
 
 std::unique_ptr<QueryTable> ProtoToQuerytable(const dbquery::Table &t) {
   auto query_table = make_unique<QueryTable>();
-  query_table->SetSchema(proto_to_query_schema(t.schema()));
+  query_table->SetSchema(ProtoToQuerySchema(t.schema()));
   for (auto &r : t.row()) {
     std::unique_ptr<QueryTuple> tup = std::make_unique<QueryTuple>();
     for (auto &c : r.column()) {
-      FieldType type = proto_to_fieldtype(c.second.type());
+      FieldType type = ProtoToFieldtype(c.second.type());
       shared_ptr<Field> f;
       unique_ptr<vaultdb::QueryField> qf;
       switch (type) {
