@@ -69,6 +69,7 @@ public class DBQuery {
       return OIDType.UNSUPPORTED;
     }
   }
+
   public DBQueryProtos.Table runQuery() {
     this.executeQuery();
     return getTable(this.getSchema());
@@ -84,7 +85,8 @@ public class DBQuery {
           switch (schema.getColumnMap().get(i).getType().getNumber()) {
           case OIDType.INTEGER_VALUE:
           case OIDType.BIGINT_VALUE:
-            columnValBuilder.setIntField(rs.getInt(i));
+            columnValBuilder.setInt64Field(rs.getInt(i));
+
             break;
           case OIDType.NUMERIC_VALUE:
           case OIDType.DOUBLE_VALUE:
@@ -101,7 +103,7 @@ public class DBQuery {
             throw new IllegalStateException("Unexpected value: " + schema.getColumnMap().get(i).getType().getNumber());
           }
           columnValBuilder.setTypeValue(schema.getColumnMap().get(i).getType().getNumber());
-          rowBuilder.putColumn(i-1, columnValBuilder.build());
+          rowBuilder.putColumn(i - 1, columnValBuilder.build());
         }
         tableBuilder.addRow(rowBuilder.build());
       }
@@ -125,7 +127,7 @@ public class DBQuery {
             .setColumnNumber(i)
             .build();
         //Vaultdb is zero indexed
-        schemaBuilder.putColumn(i-1, col);
+        schemaBuilder.putColumn(i - 1, col);
       }
     } catch (SQLException e) {
       throw new IllegalStateException("Unexpected value: " + e.getMessage());

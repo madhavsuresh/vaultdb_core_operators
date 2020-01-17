@@ -8,12 +8,12 @@
   <artifactId>java</artifactId>
   <version>1.0-SNAPSHOT</version>
   <dependencies>
-  <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-  <dependency>
-    <groupId>org.postgresql</groupId>
-    <artifactId>postgresql</artifactId>
-    <version>42.2.6</version>
-  </dependency>
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.6</version>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -58,22 +58,19 @@
       </extension>
     </extensions>
     <plugins>
-    
-
-<plugin>
-  <groupId>kr.motd.maven</groupId>
-  <artifactId>os-maven-plugin</artifactId>
-  <version>1.6.1</version>
-  <executions>
-    <execution>
-      <phase>initialize</phase>
-      <goals>
-        <goal>detect</goal>
-      </goals>
-    </execution>
-  </executions>
-</plugin>
-
+      <plugin>
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>1.6.1</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>detect</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.xolstice.maven.plugins</groupId>
         <artifactId>protobuf-maven-plugin</artifactId>
