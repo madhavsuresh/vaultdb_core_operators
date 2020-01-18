@@ -13,4 +13,13 @@ Value::Value(TypeId type, int32_t val)
     : type_(type), len_(sizeof(int32_t)), is_encrypted_(false) {
   value_.unencrypted_val.int32_val = val;
 }
+Value::Value(TypeId type, bool val)
+    : type_(type), len_(sizeof(bool)), is_encrypted_(false) {
+  value_.unencrypted_val.bool_val = val;
+}
+
+Value::Value(TypeId type, emp::Bit val)
+    : type_(type), len_(sizeof(bool)), is_encrypted_(true) {
+  value_.emp_bit_ = std::make_unique<emp::Bit>(val.bit);
+}
 } // namespace vaultdb::types

@@ -15,9 +15,9 @@ class Type {
 public:
   inline static Type *GetInstance(TypeId type_id);
 
-  virtual std::unique_ptr<BoolResult> CompareEquals(const Value &left,
+  virtual std::unique_ptr<Value> CompareEquals(const Value &left,
                                                     const Value &right) const;
-  virtual std::unique_ptr<BoolResult>
+  virtual std::unique_ptr<Value>
   CompareNotEquals(const Value &left, const Value &right) const;
 
   friend class ArithmeticType;

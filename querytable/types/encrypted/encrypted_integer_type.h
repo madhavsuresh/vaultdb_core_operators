@@ -5,9 +5,9 @@
 #ifndef TESTING_ENCRYPTED_INTEGER_TYPE_H
 #define TESTING_ENCRYPTED_INTEGER_TYPE_H
 
-#include "arithmetic_type.h"
-#include "integer_type.h"
-#include "type.h"
+#include "querytable/types/arithmetic_type.h"
+#include "querytable/types/type.h"
+#include "querytable/types/unencrypted/integer_type.h"
 #include <memory>
 
 namespace vaultdb::types {

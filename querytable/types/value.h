@@ -19,6 +19,8 @@ public:
   friend class IntegerType;
   Value(TypeId type, int32_t val);
   Value(TypeId type, int64_t val);
+  Value(TypeId type, bool val);
+  Value(TypeId type, emp::Bit val);
 
 protected:
   const bool is_encrypted_;

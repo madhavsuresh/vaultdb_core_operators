@@ -5,6 +5,7 @@
 #include "secure_join.h"
 #include "data/UnsecureTable.h"
 #include "emp-tool/emp-tool.h"
+#include <querytable/expression/expression.h>
 #include <querytable/query_table.h>
 
 Schema schema_merge(SecureTable *t1, SecureTable *t2, SecureTable *newTable,
@@ -76,6 +77,8 @@ unique_ptr<QueryTable> EquiJoin(QueryTable *left, QueryTable *right,
                                  const JoinDef &def) {
   for (auto &lt : *left) {
     for (auto &rt : *right) {
+      expression::Expression ex;
+      ex.EvaluateBinary(*lt.GetField(def.left_index)->GetValue(), *rt.GetField(def.right_index)->GetValue())
       if (lt.GetField(def.left_index) == rt.GetField(def.right_index)) {
       }
     }
