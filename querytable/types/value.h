@@ -22,6 +22,8 @@ public:
   Value(TypeId type, bool val);
   Value(TypeId type, emp::Bit val);
 
+  TypeId GetType();
+
 protected:
   const bool is_encrypted_;
   const TypeId type_;

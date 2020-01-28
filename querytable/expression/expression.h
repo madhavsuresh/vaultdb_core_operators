@@ -19,7 +19,7 @@ public:
   virtual types::Value EvaluateBinary(types::Value *v1, types::Value *v2,
                                       ExpressionId id);
 
-  virtual types::Value execute();
+  types::Value execute();
 private:
   int num_values_;
   std::vector<types::Value *> values_;

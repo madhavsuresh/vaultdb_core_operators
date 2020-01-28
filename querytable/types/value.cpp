@@ -22,4 +22,6 @@ Value::Value(TypeId type, emp::Bit val)
     : type_(type), len_(sizeof(bool)), is_encrypted_(true) {
   value_.emp_bit_ = std::make_unique<emp::Bit>(val.bit);
 }
+
+TypeId Value::GetType() { return Value::type_; }
 } // namespace vaultdb::types

@@ -11,9 +11,9 @@
 namespace vaultdb::types {
 class ArithmeticType : public Type {
 public:
-  virtual std::unique_ptr<BoolResult>
+  virtual std::unique_ptr<Value>
   CompareEquals(const Value &left, const Value &right) const override = 0;
-  virtual std::unique_ptr<BoolResult>
+  virtual std::unique_ptr<Value>
   CompareNotEquals(const Value &left, const Value &right) const override = 0;
 };
 } // namespace vaultdb::types
