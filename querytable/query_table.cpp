@@ -6,7 +6,6 @@
 
 void QueryTable::PutTuple(std::unique_ptr<QueryTuple> t) {
   tuples_.push_back(std::move(t));
-  std::cout << "wow!";
 }
 
 void QueryTable::SetSchema(std::unique_ptr<QuerySchema> s) {
