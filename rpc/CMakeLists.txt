@@ -32,17 +32,17 @@ set(vdb_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/dbquery.grpc.pb.h")
 #add_library(HBGeneralize HBGeneralize.cpp ../postgres_client.cpp vaultdb.grpc.pb.cc vaultdb.pb.cc ../TableStatistics.cpp)
 
 add_custom_command(
-		OUTPUT "${vdb_proto_srcs}" "${vdb_proto_hdrs}" "${vdb_grpc_srcs}" "${vdb_grpc_hdrs}"
+		OUTPUT "${vdb_proto_srcs}" "${vdb_proto_hdrs}" #"${vdb_grpc_srcs}" "${vdb_grpc_hdrs}"
 		COMMAND ${PROTOC}
-		ARGS --grpc_out "${CMAKE_CURRENT_BINARY_DIR}"
+		ARGS
 		--cpp_out "${CMAKE_CURRENT_BINARY_DIR}"
 		-I "${vdb_proto_path}"
-		--plugin=protoc-gen-grpc=${GRPC_PROTO_PLUGIN}
+		#--plugin=protoc-gen-grpc=${GRPC_PROTO_PLUGIN}
 		"${vdb_proto}"
 		DEPENDS "${vdb_proto}")
-add_custom_target(rpc_proto_gen ALL DEPENDS ${vdb_proto} ${vdb_proto_srcs} ${vdb_proto_headers} ${vdb_grpc_srcs} ${vdb_grpc_hdrs})
+add_custom_target(rpc_proto_gen ALL DEPENDS ${vdb_proto} ${vdb_proto_srcs} ${vdb_proto_headers}) #${vdb_grpc_srcs} ${vdb_grpc_hdrs})
 
 
-add_library(krpc ${vdb_proto_srcs} ${vdb_grpc_srcs}  DBQueryClient.cpp DBQueryClient.h)
+add_library(krpc ${vdb_proto_srcs} DBQueryClient.cpp DBQueryClient.h)
 
-target_link_libraries(krpc grpc grpc++ protobuf pthread)
+target_link_libraries(krpc protobuf pthread)
