@@ -46,7 +46,7 @@ public:
 
   QueryField(std::string val, int field_num);
 
-  types::Value *GetValue() const;
+  [[nodiscard]] types::Value *GetValue() const;
 
   [[nodiscard]] std::vector<bool> GetAsBits() const;
 
