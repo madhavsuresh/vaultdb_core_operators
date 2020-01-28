@@ -133,7 +133,7 @@ std::unique_ptr<QueryTable> ProtoToQuerytable(const dbquery::Table &t) {
       default:
         throw;
       }
-      tup->PutField(c.first, *qf);
+      tup->PutField(c.first, std::move(qf));
     }
     query_table->PutTuple(std::move(tup));
   }

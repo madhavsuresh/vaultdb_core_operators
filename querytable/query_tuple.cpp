@@ -11,6 +11,9 @@ const QueryField *QueryTuple::GetField(int ordinal) const {
 }
 
 
+void QueryTuple::PutField(int ordinal, std::unique_ptr<QueryField> f) {
+  fields_.emplace(ordinal, std::move(f));
+}
 void QueryTuple::PutField(int ordinal, const QueryField &f) {
   fields_.emplace(ordinal, std::make_unique<QueryField>(f));
 }

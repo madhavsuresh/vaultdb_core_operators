@@ -25,6 +25,7 @@ public:
   const vaultdb::QueryField *GetField(int ordinal) const;
   const vaultdb::QueryField &GetField(string name) const;
   void PutField(int ordinal, const vaultdb::QueryField &f);
+  void PutField(int ordinal, std::unique_ptr<QueryField> f);
   [[nodiscard]] bool IsEqual(const QueryField &f) const;
   void SetDummyFlag(emp::Bit &flag);
   void SetDummyFlag(bool flag);
