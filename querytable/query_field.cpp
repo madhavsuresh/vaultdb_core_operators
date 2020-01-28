@@ -67,6 +67,7 @@ QueryField::QueryField(std::string val, int fn)
   this->unencrypted_value.stringValue = tmp;
   assert(strlen(this->unencrypted_value.stringValue) == (val.length()));
 }
-types::Value *QueryField::GetValue() {
+
+types::Value *QueryField::GetValue() const {
   return value_.get();
 }
