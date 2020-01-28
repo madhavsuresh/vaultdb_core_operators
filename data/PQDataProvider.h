@@ -13,7 +13,9 @@ class PQDataProvider : DataProvider {
 
 public:
   unique_ptr<UnsecureTable> GetTable(std::string dbname,
-                                      std::string query_string);
+                                     std::string query_string);
+  unique_ptr<QueryTable>
+  GetQueryTable(std::string dbname, std::string query_string);
 };
 
 #endif // TESTING_PQDATAPROVIDER_H
