@@ -9,3 +9,4 @@ void QuerySchema::PutField(int index, QueryFieldDesc &fd) {
   QuerySchema::fields.emplace(index,
                               std::make_unique<QueryFieldDesc>(fd, index));
 }
+QueryFieldDesc *QuerySchema::GetField(int i) const { return nullptr; }
