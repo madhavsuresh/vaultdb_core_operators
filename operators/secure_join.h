@@ -6,6 +6,8 @@
 #define TESTING_SECURE_JOIN_H
 #include <data/UnsecureTable.h>
 #include <map>
+#include <querytable/expression/expression_id.h>
+#include <querytable/query_table.h>
 #include <vector>
 
 struct FieldMap {
@@ -30,8 +32,11 @@ struct JoinDef {
   int right_index;
   std::map<int, FieldMap> left_fields;
   std::map<int, FieldMap> right_fields;
+  vaultdb::expression::ExpressionId id;
 };
 
 SecureTable EmpJoin(SecureTable *left, SecureTable *right, const JoinDef &def);
+unique_ptr<QueryTable> EquiJoin(QueryTable *left, QueryTable *right,
+                                const JoinDef &def);
 
 #endif // TESTING_SECURE_JOIN_H

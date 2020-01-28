@@ -28,9 +28,10 @@ std::unique_ptr<emp::Bit> equality(std::vector<emp::Bit *> r1,
   return make_unique<emp::Bit>(b.bit);
 }
 
-std::unique_ptr<emp::Bit>
-RunJoinEqualityCondition(SecureTable *left, SecureTable *right, int left_idx,
-                            int right_idx, const JoinDef &def) {
+std::unique_ptr<emp::Bit> RunJoinEqualityCondition(SecureTable *left,
+                                                   SecureTable *right,
+                                                   int left_idx, int right_idx,
+                                                   const JoinDef &def) {
   auto left_bits = left->get_field_range(left_idx, def.left_index);
   auto right_bits = right->get_field_range(right_idx, def.right_index);
   auto eq = equality(left_bits, right_bits);
@@ -39,8 +40,7 @@ RunJoinEqualityCondition(SecureTable *left, SecureTable *right, int left_idx,
   return eq;
 }
 
-SecureTable EmpJoin(SecureTable *left, SecureTable *right,
-                     const JoinDef &def) {
+SecureTable EmpJoin(SecureTable *left, SecureTable *right, const JoinDef &def) {
   // TODO(madhavsuresh): simple nested loop join
   for (int l_tup_idx = 0; l_tup_idx < left->get_num_tuples(); l_tup_idx++) {
     for (int r_tup_idx = 0; r_tup_idx < right->get_num_tuples(); r_tup_idx++) {
@@ -53,7 +53,7 @@ SecureTable EmpJoin(SecureTable *left, SecureTable *right,
 
 unique_ptr<vaultdb::QueryTuple>
 MergeTuples(std::vector<vaultdb::QueryTuple *> &tuples,
-             const ProjectList &def) {
+            const ProjectList &def) {
   unique_ptr<vaultdb::QueryTuple> output = make_unique<vaultdb::QueryTuple>();
   for (auto &p : def.pl) {
     auto f = tuples[p.in_table_index]->GetField(p.in_field_index);
@@ -63,24 +63,24 @@ MergeTuples(std::vector<vaultdb::QueryTuple *> &tuples,
 }
 
 unique_ptr<QuerySchema> MergeSchema(std::vector<QuerySchema *> &schemas,
-                                     const ProjectList &def) {
+                                    const ProjectList &def) {
   unique_ptr<QuerySchema> output = make_unique<QuerySchema>(def.pl.size());
   for (auto &p : def.pl) {
-    output->PutField(
-        p.out_field_index,
-        *schemas.at(p.in_table_index)->GetField(p.in_field_index));
+    output->PutField(p.out_field_index,
+                     *schemas.at(p.in_table_index)->GetField(p.in_field_index));
   }
   return output;
 }
 
 unique_ptr<QueryTable> EquiJoin(QueryTable *left, QueryTable *right,
-                                 const JoinDef &def) {
+                                const JoinDef &def) {
+  auto qt = make_unique<QueryTable>();
   for (auto &lt : *left) {
     for (auto &rt : *right) {
-      expression::Expression ex;
-      ex.EvaluateBinary(*lt.GetField(def.left_index)->GetValue(), *rt.GetField(def.right_index)->GetValue())
-      if (lt.GetField(def.left_index) == rt.GetField(def.right_index)) {
-      }
+      expression::Expression ex(lt.GetField(def.left_index)->GetValue(),
+                                rt.GetField(def.right_index)->GetValue(),
+                                def.id);
+      auto output = ex.execute();
     }
   }
 }

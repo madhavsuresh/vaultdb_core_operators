@@ -14,9 +14,6 @@ public:
   explicit BoolResult(emp::Bit bit);
   explicit BoolResult(bool bit);
 
-  friend class Type;
-  friend class ArithmeticType;
-  friend class EncryptedIntegerType;
 protected:
   const bool is_encrypted_;
   std::unique_ptr<emp::Bit> encrypted_bit_;

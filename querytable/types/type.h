@@ -13,16 +13,12 @@ class Value;
 
 class Type {
 public:
-  inline static Type *GetInstance(TypeId type_id);
+  static Type *GetInstance(TypeId type_id);
 
-  virtual std::unique_ptr<Value> CompareEquals(const Value &left,
-                                                    const Value &right) const;
-  virtual std::unique_ptr<Value>
-  CompareNotEquals(const Value &left, const Value &right) const;
-
-  friend class ArithmeticType;
-  friend class IntegerType;
-  friend class EncryptedIntegerType;
+  [[nodiscard]] virtual std::unique_ptr<Value> CompareEquals(const Value &left,
+                                                    const Value &right) const = 0;
+  [[nodiscard]] virtual std::unique_ptr<Value>
+  CompareNotEquals(const Value &left, const Value &right) const = 0;
 
 protected:
   TypeId type_id_;

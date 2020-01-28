@@ -8,16 +8,16 @@ namespace vaultdb::types {
 #define EMP_INT_CMP(OP)                                                        \
   do {                                                                         \
     emp::Bit b = left.value_.emp_integer_ OP right.value_.emp_integer_;          \
-    std::unique_ptr<BoolResult> res = std::make_unique<BoolResult>(b);         \
+    auto res = std::make_unique<Value>(TypeId::ENCRYPTED_BOOLEAN,b);         \
     return res;                                                                \
   } while (0)
 
-std::unique_ptr<BoolResult>
+std::unique_ptr<Value>
 EncryptedIntegerType::CompareEquals(const Value &left,
                                     const Value &right) const {
   EMP_INT_CMP(==);
 }
-std::unique_ptr<BoolResult>
+std::unique_ptr<Value>
 EncryptedIntegerType::CompareNotEquals(const Value &left,
                                        const Value &right) const {
   EMP_INT_CMP(!=);

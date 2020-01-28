@@ -9,14 +9,14 @@ namespace vaultdb::types {
   do {                                                                         \
     switch (left.type_) {                                                      \
     case TypeId::INTEGER32: {                                                  \
-      return std::make_unique<BoolResult>(                                     \
-          left.value_.unencrypted_val.int32_val OP                             \
+      return std::make_unique<Value>(                                          \
+          TypeId::BOOLEAN, left.value_.unencrypted_val.int32_val OP             \
               right.value_.unencrypted_val.int32_val);                         \
     }                                                                          \
     case TypeId::INTEGER64: {                                                  \
-      return std::make_unique<BoolResult>(                                     \
-          left.value_.unencrypted_val.int64_val OP                             \
-              right.value_.unencrypted_val.int64_val);                         \
+      return std::make_unique<Value>(                                          \
+          TypeId::BOOLEAN, left.value_.unencrypted_val.int64_val OP            \
+                               right.value_.unencrypted_val.int64_val);        \
       break;                                                                   \
     }                                                                          \
     default:                                                                   \
@@ -24,14 +24,15 @@ namespace vaultdb::types {
     }                                                                          \
   } while (0)
 
-std::unique_ptr<BoolResult> vaultdb::types::IntegerType::CompareEquals(
+std::unique_ptr<Value> vaultdb::types::IntegerType::CompareEquals(
     const vaultdb::types::Value &left,
     const vaultdb::types::Value &right) const {
   INT_CMP(==);
 }
-std::unique_ptr<BoolResult> vaultdb::types::IntegerType::CompareNotEquals(
+std::unique_ptr<Value> vaultdb::types::IntegerType::CompareNotEquals(
     const vaultdb::types::Value &left,
     const vaultdb::types::Value &right) const {
   INT_CMP(!=);
 }
+IntegerType::IntegerType() {}
 } // namespace vaultdb::types

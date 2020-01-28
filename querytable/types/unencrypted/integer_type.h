@@ -5,11 +5,12 @@
 #ifndef TESTING_INTEGER_TYPE_H
 #define TESTING_INTEGER_TYPE_H
 
-#include "querytable/types/arithmetic_type.h"
+#pragma once
 #include "querytable/types/value.h"
+#include "querytable/types/type.h"
 namespace vaultdb::types {
 
-class IntegerType : public ArithmeticType {
+class IntegerType : public Type {
 public:
   IntegerType();
 
