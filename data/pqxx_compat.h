@@ -5,7 +5,6 @@
 #ifndef TESTING_PQXX_COMPAT_H
 #define TESTING_PQXX_COMPAT_H
 
-#include "dbquery.grpc.pb.h"
 #include "dbquery.pb.h"
 #include <pqxx/pqxx>
 #include <string>
