@@ -8,6 +8,10 @@ void QueryTable::PutTuple(std::unique_ptr<QueryTuple> t) {
   tuples_.push_back(std::move(t));
 }
 
+QueryTuple *QueryTable::GetTuple(int idx) const {
+  return tuples_[idx].get();
+}
+
 void QueryTable::SetSchema(std::unique_ptr<QuerySchema> s) {
   QueryTable::schema_ = std::move(s);
 }

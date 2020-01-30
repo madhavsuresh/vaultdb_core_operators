@@ -24,4 +24,7 @@ Value::Value(TypeId type, emp::Bit val)
 }
 
 TypeId Value::GetType() { return Value::type_; }
+
+int32_t Value::GetInt32() const { return value_.unencrypted_val.int32_val; }
+int64_t Value::GetInt64() const { return value_.unencrypted_val.int64_val; }
 } // namespace vaultdb::types

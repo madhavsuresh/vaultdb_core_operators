@@ -14,15 +14,14 @@ class Value {
 
 public:
   friend class Type;
-  friend class ArithmeticType;
-  friend class EncryptedIntegerType;
-  friend class IntegerType;
   Value(TypeId type, int32_t val);
   Value(TypeId type, int64_t val);
   Value(TypeId type, bool val);
   Value(TypeId type, emp::Bit val);
 
   TypeId GetType();
+  int64_t GetInt64() const;
+  int32_t GetInt32() const;
 
 protected:
   const bool is_encrypted_;

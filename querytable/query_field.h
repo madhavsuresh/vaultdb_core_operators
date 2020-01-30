@@ -47,59 +47,7 @@ public:
   QueryField(std::string val, int field_num);
 
   [[nodiscard]] types::Value *GetValue() const;
-
-  [[nodiscard]] std::vector<bool> GetAsBits() const;
-
-  [[nodiscard]] int64_t to(int64_t) const {
-    return this->unencrypted_value.int64Value;
-  }
-
-  [[nodiscard]] int32_t to(int32_t) const {
-    return this->unencrypted_value.int32Value;
-  }
-
-  [[nodiscard]] double to(double) const {
-    return this->unencrypted_value.doubleValue;
-  }
-
-  emp::Bit *to(emp::Bit *) const {
-    if (base_data.size() != 1) {
-      throw;
-    }
-    return base_data[0].get();
-  }
-
-  emp::Integer *to(emp::Integer *) const {
-    if (empInt == nullptr) {
-      throw;
-    }
-    return empInt.get();
-  }
-
-  virtual emp::Bit **to(emp::Bit **) const {};
-
-  template <typename T> T get_as() const {
-    T obj;
-    return to(obj);
-  }
 };
 
-class QueryFieldInt32 : public QueryField {
-private:
-  int32_t val;
-
-public:
-  QueryFieldInt32(int32_t val, int fieldNum) : QueryField(val, fieldNum) {}
-
-  emp::Bit **to(emp::Bit **) const { throw; }
-};
-
-class QueryFieldInt64 : public QueryField {
-private:
-  int64_t val{};
-
-public:
-  QueryFieldInt64(int64_t val, int fieldNum) : QueryField(val, fieldNum) {}
-};
 } // namespace vaultdb::querytable
 #endif // TESTING_QUERY_FIELD_H

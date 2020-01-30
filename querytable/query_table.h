@@ -46,6 +46,7 @@ public:
       const_iterator;
   void SetSchema(std::unique_ptr<QuerySchema> s);
   void PutTuple(std::unique_ptr<vaultdb::QueryTuple> t);
+  QueryTuple *GetTuple(int idx) const;
 
   iterator begin() { return dereference_iterator(tuples_.begin()); }
   const_iterator begin() const { return dereference_iterator(tuples_.begin()); }
