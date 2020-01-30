@@ -17,5 +17,5 @@ TEST_F(secure_join_test, simple_execution_test) {
   def.id = vaultdb::expression::ExpressionId::EQUAL;
   def.right_index = 0;
   def.left_index = 0;
-  EquiJoin(qt.get(), qt.get(), def);
+    Join(qt.get(), qt.get(), def);
 }

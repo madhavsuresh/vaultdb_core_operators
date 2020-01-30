@@ -36,7 +36,7 @@ struct JoinDef {
 };
 
 SecureTable EmpJoin(SecureTable *left, SecureTable *right, const JoinDef &def);
-unique_ptr<QueryTable> EquiJoin(QueryTable *left, QueryTable *right,
-                                const JoinDef &def);
+unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
+                            const JoinDef &def);
 
 #endif // TESTING_SECURE_JOIN_H

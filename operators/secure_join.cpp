@@ -72,15 +72,16 @@ unique_ptr<QuerySchema> MergeSchema(std::vector<QuerySchema *> &schemas,
   return output;
 }
 
-unique_ptr<QueryTable> EquiJoin(QueryTable *left, QueryTable *right,
-                                const JoinDef &def) {
+unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
+                            const JoinDef &def) {
   auto qt = make_unique<QueryTable>();
   for (auto &lt : *left) {
-    for (auto &rt : *right) {
-      expression::Expression ex(lt.GetField(def.left_index)->GetValue(),
-                                rt.GetField(def.right_index)->GetValue(),
-                                def.id);
-      auto output = ex.execute();
-    }
+      for (auto &rt : *right) {
+          expression::Expression ex(lt.GetField(def.left_index)->GetValue(),
+                                    rt.GetField(def.right_index)->GetValue(),
+                                    def.id);
+
+          auto output = ex.execute();
+      }
   }
 }
