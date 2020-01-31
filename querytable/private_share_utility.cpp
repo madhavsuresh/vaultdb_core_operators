@@ -7,7 +7,7 @@
 #include "private_share_utility.h"
 
 
-std::unique_ptr<emp::Batcher> get_batcher(ShareCount &c,
+std::unique_ptr<emp::Batcher> GetBatcher(ShareCount &c,
                                           const QuerySchema *shared_schema,
                                           const QueryTable *input_table,
                                           EmpParty party) {
@@ -34,7 +34,7 @@ std::unique_ptr<emp::Batcher> get_batcher(ShareCount &c,
   return batcher;
 }
 
-void add_to_table(QueryTable *t, const QuerySchema *shared_schema, emp::Batcher *b,
+void AddToTable(QueryTable *t, const QuerySchema *shared_schema, emp::Batcher *b,
                   ShareCount &c) {
 
   for (int i = 0; i < c.num_tuples; i++) {
@@ -56,7 +56,7 @@ void add_to_table(QueryTable *t, const QuerySchema *shared_schema, emp::Batcher 
   }
 }
 
-std::unique_ptr<QueryTable> share_data(const QuerySchema *shared_schema,
+std::unique_ptr<QueryTable> ShareData(const QuerySchema *shared_schema,
                                        EmpParty party,
                                        const QueryTable *input_table,
                                        ShareDef &def) {
@@ -68,22 +68,22 @@ std::unique_ptr<QueryTable> share_data(const QuerySchema *shared_schema,
 
   //TODO(madhavsuresh): don't send in the table unless you are the owner of
   // the batcher
-  batcher_map[EmpParty::ALICE] = get_batcher(def.share_map[EmpParty::ALICE],
-                                             shared_schema, input_table, party);
+  batcher_map[EmpParty::ALICE] = GetBatcher(def.share_map[EmpParty::ALICE],
+                                            shared_schema, input_table, party);
 
-  batcher_map[EmpParty::BOB] = get_batcher(def.share_map[EmpParty::BOB],
-                                           shared_schema, input_table, party);
+  batcher_map[EmpParty::BOB] = GetBatcher(def.share_map[EmpParty::BOB],
+                                          shared_schema, input_table, party);
 
   batcher_map[EmpParty::ALICE]->make_semi_honest(
       static_cast<int>(EmpParty::ALICE));
   batcher_map[EmpParty::BOB]->make_semi_honest(static_cast<int>(EmpParty::BOB));
 
   std::unique_ptr<QueryTable> output_table = std::make_unique<QueryTable>();
-  add_to_table(output_table.get(), shared_schema,
-               batcher_map[EmpParty::ALICE].get(),
-               def.share_map[EmpParty::ALICE]);
+  AddToTable(output_table.get(), shared_schema,
+             batcher_map[EmpParty::ALICE].get(),
+             def.share_map[EmpParty::ALICE]);
 
-  add_to_table(output_table.get(), shared_schema,
-               batcher_map[EmpParty::BOB].get(), def.share_map[EmpParty::BOB]);
+  AddToTable(output_table.get(), shared_schema,
+             batcher_map[EmpParty::BOB].get(), def.share_map[EmpParty::BOB]);
   return output_table;
 }

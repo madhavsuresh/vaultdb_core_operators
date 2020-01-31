@@ -17,7 +17,7 @@ struct ShareCount {
 struct ShareDef {
   std::map<EmpParty, ShareCount> share_map;
 };
-std::unique_ptr<QueryTable> share_data(const QuerySchema *shared_schema,
+std::unique_ptr<QueryTable> ShareData(const QuerySchema *shared_schema,
                                        EmpParty party,
                                        const QueryTable *input_table,
                                        ShareDef &def);

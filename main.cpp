@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 
   def.share_map[EmpParty::ALICE] = ca;
   def.share_map[EmpParty::BOB] = cb;
-  auto pt = share_data(t->GetSchema(), my_party, t.get(), def);
+  auto pt = ShareData(t->GetSchema(), my_party, t.get(), def);
   std::cout << "Num tuples: " << pt->GetNumTuples();
   JoinDef x = {.left_index = 0, .right_index = 0};
   x.id = vaultdb::expression::ExpressionId::EQUAL;
