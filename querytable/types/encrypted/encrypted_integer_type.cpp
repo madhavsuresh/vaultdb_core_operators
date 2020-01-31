@@ -22,5 +22,4 @@ EncryptedIntegerType::CompareNotEquals(const Value &left,
                                        const Value &right) const {
   EMP_INT_CMP(!=);
 }
-EncryptedIntegerType::EncryptedIntegerType() {}
 } // namespace vaultdb::types

@@ -84,5 +84,4 @@ unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
           auto output = ex.execute();
       }
   }
-  return qt;
 }

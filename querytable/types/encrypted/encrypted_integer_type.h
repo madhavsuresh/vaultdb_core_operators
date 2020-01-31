@@ -12,11 +12,6 @@
 namespace vaultdb::types {
 class EncryptedIntegerType : public Type {
 public:
-  EncryptedIntegerType();
-  static EncryptedIntegerType &shared_instance() {
-    static EncryptedIntegerType type;
-    return type;
-  }
   [[nodiscard]] std::unique_ptr<Value>
   CompareEquals(const Value &left, const Value &right) const override;
   [[nodiscard]] std::unique_ptr<Value>

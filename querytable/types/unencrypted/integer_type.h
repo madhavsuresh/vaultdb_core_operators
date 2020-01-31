@@ -13,10 +13,6 @@ namespace vaultdb::types {
 class IntegerType : public Type {
 public:
   IntegerType();
-  static IntegerType &shared_instance() {
-    static IntegerType type;
-    return type;
-  }
 
   [[nodiscard]] std::unique_ptr<Value>
   CompareEquals(const vaultdb::types::Value &left, const Value &right) const override;

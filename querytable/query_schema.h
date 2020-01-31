@@ -14,7 +14,8 @@
 
 class QuerySchema {
 private:
-  std::map<int, std::unique_ptr<QueryFieldDesc>> fields_;
+  std::map<int, std::unique_ptr<QueryFieldDesc>> fields;
+  int num_fields;
   size_t length_of_tuple;
 
 public:
