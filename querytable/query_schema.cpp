@@ -6,7 +6,10 @@
 
 QuerySchema::QuerySchema(int num_fields) {}
 void QuerySchema::PutField(int index, QueryFieldDesc &fd) {
-  QuerySchema::fields.emplace(index,
+  QuerySchema::fields_.emplace(index,
                               std::make_unique<QueryFieldDesc>(fd, index));
 }
-QueryFieldDesc *QuerySchema::GetField(int i) const { return nullptr; }
+QueryFieldDesc *QuerySchema::GetField(int i) const {
+  return fields_.at(i).get();
+}
+int QuerySchema::GetNumFields() const { return fields_.size(); }

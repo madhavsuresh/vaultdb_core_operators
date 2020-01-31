@@ -9,6 +9,6 @@ add_library(query_table
         table_manager.cpp
         table_manager.h
         private_share_utility.cpp)
-target_link_libraries(query_table types)
+target_link_libraries(query_table types gmp)
 add_subdirectory(types)
 

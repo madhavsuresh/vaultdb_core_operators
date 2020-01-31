@@ -18,8 +18,9 @@ class QueryField {
 private:
   bool is_encrypted_;
 
-  const int field_num;
+  const int field_num_;
   std::unique_ptr<types::Value> value_;
+
   //TODO(madhavsuresh): Deprecated, removed all below.
   std::vector<std::unique_ptr<emp::Bit>> base_data;
   std::unique_ptr<emp::Integer> empInt;
@@ -45,6 +46,8 @@ public:
   QueryField(char *val, int field_num);
 
   QueryField(std::string val, int field_num);
+
+  QueryField(emp::Integer, int length, int field_num);
 
   [[nodiscard]] types::Value *GetValue() const;
 };

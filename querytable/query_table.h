@@ -38,15 +38,18 @@ private:
   std::unique_ptr<QuerySchema> schema_;
 
 public:
+  void SetSchema(std::unique_ptr<QuerySchema> s);
+  void PutTuple(std::unique_ptr<vaultdb::QueryTuple> t);
+  const QuerySchema *GetSchema() const;
+  QueryTuple *GetTuple(int idx) const;
+  int GetNumTuples() const;
+
   typedef DereferenceIterator<
       std::vector<std::unique_ptr<vaultdb::QueryTuple>>::iterator>
       iterator;
   typedef DereferenceIterator<
       std::vector<std::unique_ptr<vaultdb::QueryTuple>>::const_iterator>
       const_iterator;
-  void SetSchema(std::unique_ptr<QuerySchema> s);
-  void PutTuple(std::unique_ptr<vaultdb::QueryTuple> t);
-  QueryTuple *GetTuple(int idx) const;
 
   iterator begin() { return dereference_iterator(tuples_.begin()); }
   const_iterator begin() const { return dereference_iterator(tuples_.begin()); }
