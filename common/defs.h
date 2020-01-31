@@ -8,7 +8,7 @@
 #include <emp-tool/utils/constants.h>
 namespace vaultdb {
 
-enum class EmpParty { ALICE = emp::ALICE, BOB = emp::BOB; };
+enum class EmpParty { ALICE = emp::ALICE, BOB = emp::BOB };
 
 }
 #endif // TESTING_DEFS_H
