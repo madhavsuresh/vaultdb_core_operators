@@ -43,7 +43,7 @@ Expression::EvaluateBinary(types::Value *v1, types::Value *v2,
     throw;
   case ExpressionId::EQUAL:
     return vaultdb::types::Type::GetInstance(v1->GetType())
-        .CompareEquals(*v1, *v2);
+        ->CompareEquals(*v1, *v2);
   case ExpressionId::GREATERTHANOREQUAL:
     throw;
   case ExpressionId::LESSTHAN:

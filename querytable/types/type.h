@@ -13,7 +13,7 @@ class Value;
 
 class Type {
 public:
-  static Type &GetInstance(TypeId type_id);
+  static Type *GetInstance(TypeId type_id);
 
   [[nodiscard]] virtual std::unique_ptr<Value> CompareEquals(const Value &left,
                                                     const Value &right) const = 0;
