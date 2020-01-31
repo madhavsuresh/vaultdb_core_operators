@@ -2,8 +2,6 @@
 // Created by madhav on 12/20/19.
 //
 #include "data/PQDataProvider.h"
-#include "data/ShareData.h"
-#include "data/UnsecureTable.h"
 #include "emp-sh2pc/emp-sh2pc.h"
 #include "emp-tool/emp-tool.h"
 #include "gflags/gflags.h"

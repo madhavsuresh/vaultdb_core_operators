@@ -3,9 +3,7 @@ add_library(pqxx_compat
         pqxx_compat.h
         proto_converter.cpp
         proto_converter.h
-        UnsecureTable.cpp
-        ShareData.cpp
-        ShareData.h)
+        )
 target_link_libraries(pqxx_compat krpc pqxx pq)
 
 add_library(dataprovider DataProvider.cpp PQDataProvider.cpp ../querytable/query_table.cpp ../querytable/query_table.h)

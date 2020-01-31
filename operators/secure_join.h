@@ -4,7 +4,6 @@
 
 #ifndef TESTING_SECURE_JOIN_H
 #define TESTING_SECURE_JOIN_H
-#include <data/UnsecureTable.h>
 #include <map>
 #include <querytable/expression/expression_id.h>
 #include <querytable/query_table.h>
@@ -35,8 +34,7 @@ struct JoinDef {
   vaultdb::expression::ExpressionId id;
 };
 
-SecureTable EmpJoin(SecureTable *left, SecureTable *right, const JoinDef &def);
-unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
+std::unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
                             const JoinDef &def);
 
 #endif // TESTING_SECURE_JOIN_H
