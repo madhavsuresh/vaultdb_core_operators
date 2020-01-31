@@ -16,23 +16,9 @@ namespace vaultdb {
 
 class QueryField {
 private:
-  bool is_encrypted_;
 
   const int field_num_;
   std::unique_ptr<types::Value> value_;
-
-  //TODO(madhavsuresh): Deprecated, removed all below.
-  std::vector<std::unique_ptr<emp::Bit>> base_data;
-  std::unique_ptr<emp::Integer> empInt;
-  int bit_length;
-  union val {
-    int64_t int64Value;
-    int32_t int32Value;
-    double doubleValue;
-    char *stringValue;
-  } unencrypted_value{};
-  const bool is_string;
-  const FieldType type;
 
 public:
   QueryField(const QueryField &qf);
