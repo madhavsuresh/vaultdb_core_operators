@@ -7,30 +7,19 @@
 
 #include <map>
 #include <memory>
+#include <querytable/types/type_id.h>
 #include <string>
 #include <utility>
 #include <variant>
 #include <vector>
 
-enum FieldType {
-  UNSUPPORTED,
-  INTEGER32,
-  INTEGER64,
-  VARCHAR,
-  DOUBLE,
-  NUMERIC,
-  TIMESTAMP,
-  TIME,
-  BIGINT
-};
-
 class QueryFieldDesc {
 
 private:
-  const int column_number;
-  const bool is_private;
-  const std::string name;
-  const FieldType type;
+  const vaultdb::types::TypeId type_;
+  const int column_number_;
+  const bool is_private_;
+  const std::string name_;
   // origin table name
   const std::string table_name;
 
@@ -41,22 +30,22 @@ public:
 
   [[nodiscard]] const std::string &GetName() const;
 
-  [[nodiscard]] FieldType GetType() const;
+  [[nodiscard]] vaultdb::types::TypeId GetType() const;
 
   [[nodiscard]] const std::string &GetTableName() const;
 
   [[nodiscard]] size_t GetFieldSize() const;
 
   QueryFieldDesc(QueryFieldDesc &f)
-      : column_number(f.column_number), is_private(f.is_private), name(f.name),
-        type(f.type), table_name(f.table_name){};
+      : type_(f.type_), column_number_(f.column_number_),
+        is_private_(f.is_private_), name_(f.name_), table_name(f.table_name){};
 
   QueryFieldDesc(QueryFieldDesc &f, int col_num)
-      : column_number(col_num), is_private(f.is_private), name(f.name),
-        type(f.type), table_name(f.table_name){};
-  QueryFieldDesc(int col_num, bool is_priv, const std::string &n, FieldType t,
-                 const std::string &tab)
-      : column_number(col_num), is_private(is_priv), name(n), type(t),
+      : type_(f.type_), column_number_(col_num), is_private_(f.is_private_),
+        name_(f.name_), table_name(f.table_name){};
+  QueryFieldDesc(int col_num, bool is_priv, const std::string &n,
+                 const std::string &tab, vaultdb::types::TypeId ty)
+      : type_(ty), column_number_(col_num), is_private_(is_priv), name_(n),
         table_name(tab){};
 };
 

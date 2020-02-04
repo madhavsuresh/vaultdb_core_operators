@@ -7,21 +7,20 @@
 #include "querytable/query_schema.h"
 #include "querytable/query_table.h"
 
-FieldType GetFieldType(dbquery::OIDType type) {
-  switch (type) {
+vaultdb::types::TypeId ProtoToTypeId(dbquery::OIDType oidtype) {
+  switch (oidtype) {
   case dbquery::BIGINT:
-    return FieldType::INTEGER64;
+    return vaultdb::types::TypeId::INTEGER64;
   case dbquery::INTEGER:
-    return INTEGER32;
+    return vaultdb::types::TypeId::INTEGER32;
   case dbquery::VARCHAR:
-    return VARCHAR;
+    return vaultdb::types::TypeId::VARCHAR;
   case dbquery::NUMERIC:
   case dbquery::DOUBLE:
-    return DOUBLE;
+    return vaultdb::types::TypeId::DOUBLE;
   case dbquery::TIMESTAMP:
-    throw;
   case dbquery::TIME:
-    throw;
+  case dbquery::UNSUPPORTED:
   default:
     throw;
   }
@@ -34,29 +33,10 @@ ProtoToQuerySchema(const dbquery::Schema &proto_schema) {
     auto col_info = proto_schema.column().at(i);
     col_info.type();
     QueryFieldDesc fd(i, col_info.is_private(), col_info.name(),
-                      GetFieldType(col_info.type()), col_info.tablename());
+                       col_info.tablename(), ProtoToTypeId(col_info.type()));
     s->PutField(i, fd);
   }
   return s;
-}
-
-FieldType ProtoToFieldtype(dbquery::OIDType oidtype) {
-  switch (oidtype) {
-  case dbquery::BIGINT:
-    return FieldType::INTEGER64;
-  case dbquery::INTEGER:
-    return FieldType::INTEGER32;
-  case dbquery::VARCHAR:
-    return FieldType::VARCHAR;
-  case dbquery::NUMERIC:
-  case dbquery::DOUBLE:
-    return FieldType::DOUBLE;
-  case dbquery::TIMESTAMP:
-  case dbquery::TIME:
-  case dbquery::UNSUPPORTED:
-  default:
-    throw;
-  }
 }
 
 
@@ -66,22 +46,23 @@ std::unique_ptr<QueryTable> ProtoToQuerytable(const dbquery::Table &t) {
   for (auto &r : t.row()) {
     std::unique_ptr<QueryTuple> tup = std::make_unique<QueryTuple>();
     for (auto &c : r.column()) {
-      FieldType type = ProtoToFieldtype(c.second.type());
+      //FieldType type = ProtoToFieldtype(c.second.type());
+      vaultdb::types::TypeId type = ProtoToTypeId(c.second.type());
       std::unique_ptr<vaultdb::QueryField> qf;
       switch (type) {
-      case INTEGER32:
+      case vaultdb::types::TypeId::INTEGER32:
         qf = std::make_unique<vaultdb::QueryField>(c.second.int32field(),
                                                    c.first);
         break;
-      case INTEGER64:
+      case vaultdb::types::TypeId::INTEGER64:
         qf = std::make_unique<vaultdb::QueryField>(c.second.int64field(),
                                                    c.first);
         break;
-      case VARCHAR:
+      case vaultdb::types::TypeId::VARCHAR:
         qf =
             std::make_unique<vaultdb::QueryField>(c.second.strfield(), c.first);
         break;
-      case DOUBLE:
+      case vaultdb::types::TypeId::DOUBLE:
         qf = std::make_unique<vaultdb::QueryField>(c.second.doublefield(),
                                                    c.first);
         break;

@@ -5,18 +5,18 @@
 #include "query_field_desc.h"
 
 int QueryFieldDesc::GetColumnNumber() const {
-  return QueryFieldDesc::column_number;
+  return QueryFieldDesc::column_number_;
 }
 
 bool QueryFieldDesc::GetIsPrivate() const {
-  return QueryFieldDesc::is_private;
+  return QueryFieldDesc::is_private_;
 }
 
 const std::string &QueryFieldDesc::GetName() const {
-  return QueryFieldDesc::name;
+  return QueryFieldDesc::name_;
 }
 
-FieldType QueryFieldDesc::GetType() const { return QueryFieldDesc::type; }
+vaultdb::types::TypeId QueryFieldDesc::GetType() const { return QueryFieldDesc::type_; }
 const std::string &QueryFieldDesc::GetTableName() const {
   return QueryFieldDesc::table_name;
 }
