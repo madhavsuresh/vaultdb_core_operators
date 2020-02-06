@@ -7,25 +7,26 @@
 
 #include "emp-tool/emp-tool.h"
 #include "query_field_desc.h"
+#include "types/value.h"
 #include <memory>
 #include <vector>
-#include "types/value.h"
 
 namespace vaultdb {
 
-
 class QueryField {
 private:
-
-  const int field_num_;
-  std::unique_ptr<types::Value> value_;
+  int field_num_;
+  types::Value value_3;
 
 public:
+  QueryField();
   QueryField(const QueryField &qf);
 
   QueryField(int64_t val, int field_num);
 
   QueryField(int32_t val, int field_num);
+
+  QueryField(emp::Integer, int length, int field_num);
 
   QueryField(double val, int field_num);
 
@@ -33,10 +34,15 @@ public:
 
   QueryField(std::string val, int field_num);
 
-  QueryField(emp::Integer, int length, int field_num);
+  void SetQueryField(int64_t val, int field_num);
 
-  [[nodiscard]] types::Value *GetValue() const;
+  void SetQueryField(int32_t val, int field_num);
+
+  void SetQueryField(emp::Integer, int length, int field_num);
+
+  [[nodiscard]] const types::Value *GetValue() const;
+  void SetValue(const types::Value *val);
 };
 
-} // namespace vaultdb::querytable
+} // namespace vaultdb
 #endif // TESTING_QUERY_FIELD_H

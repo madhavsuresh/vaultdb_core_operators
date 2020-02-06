@@ -34,10 +34,14 @@ DereferenceIterator<Iterator> dereference_iterator(Iterator t) {
 
 class QueryTable {
 private:
+    void * base_ptr;
+    QueryTuple** tuples_2;
   std::vector<std::unique_ptr<vaultdb::QueryTuple>> tuples_;
   std::unique_ptr<QuerySchema> schema_;
 
 public:
+  QueryTable();
+  QueryTable(int size);
   void SetSchema(std::unique_ptr<QuerySchema> s);
   void PutTuple(std::unique_ptr<vaultdb::QueryTuple> t);
   const QuerySchema *GetSchema() const;

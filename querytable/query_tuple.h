@@ -14,33 +14,36 @@
 namespace vaultdb {
 class QueryTuple {
 private:
-  std::map<int, std::unique_ptr<const QueryField>> fields_;
-  DummyFlag flag_;
+  vaultdb::types::Value dummy_flag_2;
+  bool is_encrypted_{};
+  QueryField fields_4[5];
+  int num_fields_{};
 
 public:
   QueryTuple(QueryTuple &t);
 
-  QueryTuple();
+  QueryTuple()  {
+    dummy_flag_2.SetValue(types::TypeId::BOOLEAN, false);
+  };
+
+  QueryTuple(bool is_encrypted): is_encrypted_(is_encrypted) {
+    if (is_encrypted_) {
+      dummy_flag_2.SetValue(types::TypeId::ENCRYPTED_BOOLEAN, emp::Bit(false));
+    } else {
+      dummy_flag_2.SetValue(types::TypeId::BOOLEAN, false);
+    }
+  }
+  void InitDummy();
 
   const vaultdb::QueryField *GetField(int ordinal) const;
   const vaultdb::QueryField &GetField(string name) const;
   void PutField(int ordinal, const vaultdb::QueryField &f);
   void PutField(int ordinal, std::unique_ptr<QueryField> f);
-  [[nodiscard]] bool IsEqual(const QueryField &f) const;
+  void PutField(int ordinal, const QueryField *f);
+  void SetDummyFlag(vaultdb::types::Value *v);
   void SetDummyFlag(emp::Bit &flag);
   void SetDummyFlag(bool flag);
 
-  /* Iterator Utilities */
-  typedef typename std::map<
-      int, std::unique_ptr<const vaultdb::QueryField>>::iterator iterator;
-  typedef typename std::map<int, std::unique_ptr<const vaultdb::QueryField>>::
-      const_iterator const_iterator;
-  iterator begin() { return fields_.begin(); }
-  const_iterator begin() const { return fields_.begin(); }
-  const_iterator cbegin() const { return fields_.cbegin(); }
-  iterator end() { return fields_.end(); }
-  const_iterator end() const { return fields_.end(); }
-  const_iterator cend() const { return fields_.cend(); }
 };
 
 } // namespace vaultdb

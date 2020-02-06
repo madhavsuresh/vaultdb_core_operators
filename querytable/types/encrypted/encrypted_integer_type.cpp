@@ -9,30 +9,30 @@ namespace vaultdb::types {
   do {                                                                         \
     emp::Bit b =                                                               \
         *left.value_.emp_integer_.get() OP * right.value_.emp_integer_.get();  \
-    auto res = std::make_unique<Value>(TypeId::ENCRYPTED_BOOLEAN, b);          \
-    return res;                                                                \
+    Value v(TypeId::ENCRYPTED_BOOLEAN, b);                                                    \
+    return v;                                                                \
   } while (0)
 
 #define EMP_INT_BINARY(OP)                                                     \
   do {                                                                         \
     emp::Integer b =                                                           \
         *left.value_.emp_integer_.get() OP * right.value_.emp_integer_.get();  \
-    auto res = std::make_unique<Value>(left.type_, b, left.len_);              \
-    return res;                                                                \
+    Value v(left.type_, b, left.len_);                                                    \
+    return v;                                                                \
   } while (0)
 
-std::unique_ptr<Value>
+Value
 EncryptedIntegerType::CompareEquals(const Value &left,
                                     const Value &right) const {
   EMP_INT_CMP(==);
 }
-std::unique_ptr<Value>
+Value
 EncryptedIntegerType::CompareNotEquals(const Value &left,
                                        const Value &right) const {
   EMP_INT_CMP(!=);
 }
 EncryptedIntegerType::EncryptedIntegerType() {}
-std::unique_ptr<Value> EncryptedIntegerType::And(const Value &left,
+Value EncryptedIntegerType::And(const Value &left,
                                                  const Value &right) const {
   EMP_INT_BINARY(^);
 }

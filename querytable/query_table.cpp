@@ -17,3 +17,9 @@ void QueryTable::SetSchema(std::unique_ptr<QuerySchema> s) {
 const QuerySchema *QueryTable::GetSchema() const { return schema_.get(); }
 
 int QueryTable::GetNumTuples() const { return tuples_.size(); }
+QueryTable::QueryTable() {
+  tuples_.reserve(25000);
+}
+QueryTable::QueryTable(int size) {
+  tuples_.reserve(size);
+}

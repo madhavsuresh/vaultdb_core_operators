@@ -38,7 +38,7 @@ void AddToTable(QueryTable *t, const QuerySchema *shared_schema, emp::Batcher *b
                   ShareCount &c) {
 
   for (int i = 0; i < c.num_tuples; i++) {
-    std::unique_ptr<QueryTuple> tup = std::make_unique<QueryTuple>();
+    std::unique_ptr<QueryTuple> tup = std::make_unique<QueryTuple>(true /* is_encrypted */);
     for (int ordinal = 0; ordinal < shared_schema->GetNumFields(); ordinal++) {
       std::unique_ptr<vaultdb::QueryField> qf;
       switch (shared_schema->GetField(ordinal)->GetType()) {

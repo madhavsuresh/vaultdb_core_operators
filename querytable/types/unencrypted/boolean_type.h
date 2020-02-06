@@ -15,11 +15,11 @@ public:
     static BooleanType type;
     return type;
   }
-  std::unique_ptr<Value> CompareEquals(const Value &left,
-                                       const Value &right) const override;
-  std::unique_ptr<Value> CompareNotEquals(const Value &left,
-                                          const Value &right) const override;
-  std::unique_ptr<Value> And(const Value &left,
+  Value CompareEquals(const Value &left,
+                                      const Value &right) const override;
+  Value CompareNotEquals(const Value &left,
+                                         const Value &right) const override;
+  Value And(const Value &left,
                              const Value &right) const override;
 };
 } // namespace vaultdb::types

@@ -8,29 +8,27 @@ namespace vaultdb::types {
 #define EMP_BOOL_CMP(OP)                                                       \
   do {                                                                         \
     emp::Bit b = *left.value_.emp_bit_.get() OP * right.value_.emp_bit_.get(); \
-    auto res = std::make_unique<Value>(TypeId::ENCRYPTED_BOOLEAN, b);          \
-    return res;                                                                \
+    Value v(left.type_, b);                                                    \
+    return v;                                                                \
   } while (0)
 
 #define EMP_BOOL_BINARY(OP)                                                    \
   do {                                                                         \
     emp::Bit b = *left.value_.emp_bit_.get() OP * right.value_.emp_bit_.get(); \
-    auto res = std::make_unique<Value>(left.type_, b);                         \
-    return res;                                                                \
+    Value v(left.type_, b);                                                    \
+    return v;                                                                  \
   } while (0)
 
-std::unique_ptr<Value> vaultdb::types::EncryptedBooleanType::CompareEquals(
+Value vaultdb::types::EncryptedBooleanType::CompareEquals(
     const vaultdb::types::Value &left,
     const vaultdb::types::Value &right) const {
   EMP_BOOL_CMP(==);
 }
-std::unique_ptr<Value>
-EncryptedBooleanType::CompareNotEquals(const Value &left,
-                                       const Value &right) const {
+Value EncryptedBooleanType::CompareNotEquals(const Value &left,
+                                             const Value &right) const {
   EMP_BOOL_CMP(!=);
 }
-std::unique_ptr<Value> EncryptedBooleanType::And(const Value &left,
-                                                 const Value &right) const {
+Value EncryptedBooleanType::And(const Value &left, const Value &right) const {
   EMP_BOOL_BINARY(^);
 }
 } // namespace vaultdb::types

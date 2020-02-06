@@ -7,6 +7,7 @@
 #include "gflags/gflags.h"
 #include "operators/secure_join.h"
 #include "querytable/private_share_utility.h"
+#include <chrono>
 
 DEFINE_int32(party, 1, "party for EMP execution");
 DEFINE_int32(port, 43439, "port for EMP execution");
@@ -21,21 +22,38 @@ int main(int argc, char **argv) {
   setup_semi_honest(io, FLAGS_party);
 
   PQDataProvider pq = PQDataProvider();
-  auto t = pq.GetQueryTable("dbname=tpch_sf1",
-                            "SELECT l_orderkey FROM lineitem LIMIT 10");
+  auto lineitem =
+      pq.GetQueryTable("dbname=tpch_sf1",
+                       "SELECT l_orderkey, l_suppkey FROM lineitem LIMIT 500");
+  auto orders = pq.GetQueryTable("dbname=tpch_sf1",
+                                 "SELECT o_orderkey FROM orders LIMIT 500");
 
+  auto supplier = pq.GetQueryTable("dbname=tpch_sf1",
+                                   "SELECT s_suppkey FROM supplier LIMIT 500");
   EmpParty my_party =
       FLAGS_party == emp::ALICE ? EmpParty::ALICE : EmpParty::BOB;
   ShareDef def;
-  ShareCount ca = {.party = EmpParty::ALICE, .num_tuples = 10};
-  ShareCount cb = {.party = EmpParty::BOB, .num_tuples = 10};
+  ShareCount ca = {.party = EmpParty::ALICE, .num_tuples = 500};
+  ShareCount cb = {.party = EmpParty::BOB, .num_tuples = 500};
 
   def.share_map[EmpParty::ALICE] = ca;
   def.share_map[EmpParty::BOB] = cb;
-  auto pt = ShareData(t->GetSchema(), my_party, t.get(), def);
-  std::cout << "Num tuples: " << pt->GetNumTuples();
+  auto s_lineitem =
+      ShareData(lineitem->GetSchema(), my_party, lineitem.get(), def);
+  auto s_orders = ShareData(orders->GetSchema(), my_party, orders.get(), def);
+  auto s_supplier =
+      ShareData(supplier->GetSchema(), my_party, supplier.get(), def);
+
   JoinDef x = {.left_index = 0, .right_index = 0};
   x.id = vaultdb::expression::ExpressionId::EQUAL;
-  Join(pt.get(), pt.get(), x);
-  pt->GetTuple(1);
+  auto start = std::chrono::system_clock::now();
+  auto s_OL = Join(s_orders.get(), s_lineitem.get(), x);
+  auto end = std::chrono::system_clock::now();
+  std::chrono::duration<double> elapsed_seconds = end-start;
+  std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+  std::cout << "finished computation at " << std::ctime(&end_time)
+            << "elapsed time: " << elapsed_seconds.count() << "s\n";
+  JoinDef y = {.left_index = 0, .right_index = 1};
+  Join(supplier.get(), lineitem.get(), x);
 }

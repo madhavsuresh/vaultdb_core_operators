@@ -11,7 +11,7 @@ Expression::Expression(vaultdb::types::Value *v1, ExpressionId id) {
   id_ = id;
 }
 
-Expression::Expression(types::Value *v1, types::Value *v2, ExpressionId id) {
+Expression::Expression(const types::Value *v1, const types::Value *v2, ExpressionId id) {
   values_[0] = v1;
   values_[1] = v2;
   num_values_ = 2;
@@ -21,7 +21,7 @@ Expression::Expression(types::Value *v1, types::Value *v2, ExpressionId id) {
   id_ = id;
 }
 
-std::unique_ptr<vaultdb::types::Value> Expression::execute() {
+vaultdb::types::Value Expression::execute() {
   switch (num_values_) {
   case 1: {
     // return EvaluateUnary(values_[0], id_);
@@ -35,8 +35,8 @@ std::unique_ptr<vaultdb::types::Value> Expression::execute() {
   }
 }
 
-std::unique_ptr<vaultdb::types::Value>
-Expression::EvaluateBinary(types::Value *v1, types::Value *v2,
+vaultdb::types::Value
+Expression::EvaluateBinary(const types::Value *v1, const types::Value *v2,
                            ExpressionId id) {
   VAULTDB_ASSERT(v1->GetType() == v2->GetType());
 

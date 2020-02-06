@@ -43,10 +43,10 @@ IF (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
             )
 ENDIF ()
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=[sanitizer_name] [additional_options] [-g] [-OX]")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g")
-set(CMAKE_CXX_FLAGS "-fno-omit-frame-pointer -fsanitize=address -g -O0")
+#set(CMAKE_CXX_FLAGS "-fno-omit-frame-pointer -fsanitize=address -g -O0")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 #set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG} -g -fno-omit-frame-pointer -fsanitize=address")
@@ -72,7 +72,7 @@ include(${CMAKE_SOURCE_DIR}/lib/cmake/threading.cmake)
 message("hello ${OPENSSL_LIBRARIES}")
 message("wee ${EMP-OT_LIBRARIES}")
 add_executable(main main.cpp operators/filter.cpp operators/filter.h common/macros.h common/defs.h)
-target_link_libraries(main asan gflags pthread emp-tool gmp ${EMP-OT_LIBRARIES} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES}
+target_link_libraries(main profiler gflags pthread emp-tool gmp ${EMP-OT_LIBRARIES} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES}
         dataprovider secure_operators)
 
 

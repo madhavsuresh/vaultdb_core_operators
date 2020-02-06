@@ -59,10 +59,12 @@ std::unique_ptr<QueryTable> ProtoToQuerytable(const dbquery::Table &t) {
                                                    c.first);
         break;
       case vaultdb::types::TypeId::VARCHAR:
+        throw;
         qf =
             std::make_unique<vaultdb::QueryField>(c.second.strfield(), c.first);
         break;
       case vaultdb::types::TypeId::DOUBLE:
+        throw;
         qf = std::make_unique<vaultdb::QueryField>(c.second.doublefield(),
                                                    c.first);
         break;

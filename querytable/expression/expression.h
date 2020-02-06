@@ -12,21 +12,21 @@ class Expression {
 
 public:
   Expression(types::Value *v1, ExpressionId id);
-  Expression(types::Value *v1, types::Value *v2, ExpressionId id);
+  Expression(const types::Value *v1, const types::Value *v2, ExpressionId id);
   Expression(types::Value *v1, types::Value *v2, types::Value *v3,
              ExpressionId id);
 
   // EvaluateSingle(types::Value v, Op);
 
-  std::unique_ptr<types::Value> execute();
+  types::Value execute();
 
 private:
   int num_values_;
-  types::Value* values_[10];
+  const types::Value* values_[10];
   //std::vector<types::Value *> values_;
   ExpressionId id_;
   types::Value EvaluateUnary(types::Value *v1, ExpressionId id);
-  std::unique_ptr<types::Value> EvaluateBinary(types::Value *v1, types::Value *v2,
+  types::Value EvaluateBinary(const types::Value *v1, const types::Value *v2,
                               ExpressionId id);
   types::Value EvaluateTrinary(types::Value *v1, types::Value *v2,
                                types::Value *v3, ExpressionId id);

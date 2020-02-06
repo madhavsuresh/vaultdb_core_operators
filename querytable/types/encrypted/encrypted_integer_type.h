@@ -17,11 +17,11 @@ public:
     static EncryptedIntegerType type;
     return type;
   }
-  [[nodiscard]] std::unique_ptr<Value>
+  [[nodiscard]] Value
   CompareEquals(const Value &left, const Value &right) const override;
-  [[nodiscard]] std::unique_ptr<Value>
+  [[nodiscard]] Value
   CompareNotEquals(const Value &left, const Value &right) const override;
-  std::unique_ptr<Value> And(const Value &left,
+  Value And(const Value &left,
                              const Value &right) const override;
 };
 

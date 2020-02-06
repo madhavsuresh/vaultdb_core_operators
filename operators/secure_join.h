@@ -17,6 +17,8 @@ struct FieldMap {
 enum MERGE_SIDE { LEFT, RIGHT };
 
 struct MergeIndex {
+  MergeIndex(int i, int i1, int i2)
+      : in_table_index(i), in_field_index(i1), out_field_index(i2){};
   int in_table_index;
   int in_field_index;
   int out_field_index;
@@ -35,6 +37,6 @@ struct JoinDef {
 };
 
 std::unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
-                            const JoinDef &def);
+                                 const JoinDef &def);
 
 #endif // TESTING_SECURE_JOIN_H
