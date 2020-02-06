@@ -15,12 +15,9 @@ public:
     static BooleanType type;
     return type;
   }
-  Value CompareEquals(const Value &left,
-                                      const Value &right) const override;
-  Value CompareNotEquals(const Value &left,
-                                         const Value &right) const override;
-  Value And(const Value &left,
-                             const Value &right) const override;
+  Value CompareEquals(const Value &left, const Value &right) const override;
+  Value CompareNotEquals(const Value &left, const Value &right) const override;
+  Value And(const Value &left, const Value &right) const override;
 };
 } // namespace vaultdb::types
 

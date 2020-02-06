@@ -23,12 +23,12 @@ void QueryTuple::PutField(int ordinal, const QueryField *f) {
     throw;
   }
   fields_4[ordinal].SetValue(f->GetValue());
-  //fields_3[ordinal] = new QueryField(*f);
+  // fields_3[ordinal] = new QueryField(*f);
 }
 
 void QueryTuple::SetDummyFlag(vaultdb::types::Value *v) {
   vaultdb::expression::Expression ex(v, &dummy_flag_2,
-                                     vaultdb::expression::ExpressionId::AND);
+                                     vaultdb::expression::ExpressionId::EQUAL);
   auto result = ex.execute();
   dummy_flag_2.SetValue(&result);
 }
@@ -38,4 +38,7 @@ void QueryTuple::InitDummy() {
   } else {
     dummy_flag_2.SetValue(types::TypeId::BOOLEAN, false);
   }
+}
+void QueryTuple::SetIsEncrypted(bool isEncrypted) {
+  is_encrypted_ = isEncrypted;
 }

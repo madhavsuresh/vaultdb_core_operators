@@ -3,6 +3,5 @@
 //
 
 namespace vaultdb {
-namespace types {
-} // namespace types
+namespace types {} // namespace types
 } // namespace vaultdb

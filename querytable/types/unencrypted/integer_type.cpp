@@ -9,14 +9,14 @@ namespace vaultdb::types {
   do {                                                                         \
     switch (left.type_) {                                                      \
     case TypeId::INTEGER32: {                                                  \
-      return Value(                                          \
-          TypeId::BOOLEAN, left.value_.unencrypted_val.int32_val OP            \
-                               right.value_.unencrypted_val.int32_val);        \
+      return Value(TypeId::BOOLEAN,                                            \
+                   left.value_.unencrypted_val.int32_val OP                    \
+                       right.value_.unencrypted_val.int32_val);                \
     }                                                                          \
     case TypeId::INTEGER64: {                                                  \
-      return Value(                                          \
-          TypeId::BOOLEAN, left.value_.unencrypted_val.int64_val OP            \
-                               right.value_.unencrypted_val.int64_val);        \
+      return Value(TypeId::BOOLEAN,                                            \
+                   left.value_.unencrypted_val.int64_val OP                    \
+                       right.value_.unencrypted_val.int64_val);                \
       break;                                                                   \
     }                                                                          \
     default:                                                                   \
@@ -35,9 +35,6 @@ Value vaultdb::types::IntegerType::CompareNotEquals(
   INT_CMP(!=);
 }
 
-Value IntegerType::And(const Value &left,
-                                        const Value &right) const {
-  throw;
-}
+Value IntegerType::And(const Value &left, const Value &right) const { throw; }
 IntegerType::IntegerType() {}
 } // namespace vaultdb::types

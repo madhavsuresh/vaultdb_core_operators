@@ -12,11 +12,9 @@ protected:
   void TearDown() override{};
 };
 
-
-
 TEST_F(proto_converter_test, query_table_conversion) {
   auto table = GetPqTable(
       "dbname=tpch_sf1", "SELECT l_orderkey, l_partkey FROM lineitem LIMIT 10");
   auto t = ProtoToQuerytable(table);
-  //qf->get_as<emp::Bit **>();
+  // qf->get_as<emp::Bit **>();
 }

@@ -9,31 +9,26 @@ namespace vaultdb::types {
   do {                                                                         \
     emp::Bit b =                                                               \
         *left.value_.emp_integer_.get() OP * right.value_.emp_integer_.get();  \
-    Value v(TypeId::ENCRYPTED_BOOLEAN, b);                                                    \
-    return v;                                                                \
+    return Value(TypeId::ENCRYPTED_BOOLEAN, b);                                \
   } while (0)
 
 #define EMP_INT_BINARY(OP)                                                     \
   do {                                                                         \
     emp::Integer b =                                                           \
         *left.value_.emp_integer_.get() OP * right.value_.emp_integer_.get();  \
-    Value v(left.type_, b, left.len_);                                                    \
-    return v;                                                                \
+    return Value(left.type_, b, left.len_);                                    \
   } while (0)
 
-Value
-EncryptedIntegerType::CompareEquals(const Value &left,
-                                    const Value &right) const {
+Value EncryptedIntegerType::CompareEquals(const Value &left,
+                                          const Value &right) const {
   EMP_INT_CMP(==);
 }
-Value
-EncryptedIntegerType::CompareNotEquals(const Value &left,
-                                       const Value &right) const {
+Value EncryptedIntegerType::CompareNotEquals(const Value &left,
+                                             const Value &right) const {
   EMP_INT_CMP(!=);
 }
 EncryptedIntegerType::EncryptedIntegerType() {}
-Value EncryptedIntegerType::And(const Value &left,
-                                                 const Value &right) const {
+Value EncryptedIntegerType::And(const Value &left, const Value &right) const {
   EMP_INT_BINARY(^);
 }
 } // namespace vaultdb::types

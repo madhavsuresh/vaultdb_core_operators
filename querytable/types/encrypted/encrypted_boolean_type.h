@@ -14,12 +14,11 @@ public:
     static EncryptedBooleanType type;
     return type;
   }
-  [[nodiscard]] Value
-  CompareEquals(const Value &left, const Value &right) const override;
-  [[nodiscard]] Value
-  CompareNotEquals(const Value &left, const Value &right) const override;
-  [[nodiscard]] Value And(const Value &left,
-                                           const Value &right) const override;
+  [[nodiscard]] Value CompareEquals(const Value &left,
+                                    const Value &right) const override;
+  [[nodiscard]] Value CompareNotEquals(const Value &left,
+                                       const Value &right) const override;
+  [[nodiscard]] Value And(const Value &left, const Value &right) const override;
 };
 } // namespace vaultdb::types
 

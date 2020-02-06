@@ -8,15 +8,13 @@ namespace vaultdb::types {
 #define EMP_BOOL_CMP(OP)                                                       \
   do {                                                                         \
     emp::Bit b = *left.value_.emp_bit_.get() OP * right.value_.emp_bit_.get(); \
-    Value v(left.type_, b);                                                    \
-    return v;                                                                \
+    return Value(left.type_, b);                                               \
   } while (0)
 
 #define EMP_BOOL_BINARY(OP)                                                    \
   do {                                                                         \
     emp::Bit b = *left.value_.emp_bit_.get() OP * right.value_.emp_bit_.get(); \
-    Value v(left.type_, b);                                                    \
-    return v;                                                                  \
+    return Value(left.type_, b);                                               \
   } while (0)
 
 Value vaultdb::types::EncryptedBooleanType::CompareEquals(

@@ -12,7 +12,7 @@ vaultdb::types::TypeId ProtoToTypeId(dbquery::OIDType oidtype) {
   case dbquery::INTEGER:
   case dbquery::BIGINT:
     return vaultdb::types::TypeId::INTEGER64;
-    //return vaultdb::types::TypeId::INTEGER32;
+    // return vaultdb::types::TypeId::INTEGER32;
   case dbquery::VARCHAR:
     return vaultdb::types::TypeId::VARCHAR;
   case dbquery::NUMERIC:
@@ -33,12 +33,11 @@ ProtoToQuerySchema(const dbquery::Schema &proto_schema) {
     auto col_info = proto_schema.column().at(i);
     col_info.type();
     QueryFieldDesc fd(i, col_info.is_private(), col_info.name(),
-                       col_info.tablename(), ProtoToTypeId(col_info.type()));
+                      col_info.tablename(), ProtoToTypeId(col_info.type()));
     s->PutField(i, fd);
   }
   return s;
 }
-
 
 std::unique_ptr<QueryTable> ProtoToQuerytable(const dbquery::Table &t) {
   auto query_table = std::make_unique<QueryTable>();
@@ -46,7 +45,7 @@ std::unique_ptr<QueryTable> ProtoToQuerytable(const dbquery::Table &t) {
   for (auto &r : t.row()) {
     std::unique_ptr<QueryTuple> tup = std::make_unique<QueryTuple>();
     for (auto &c : r.column()) {
-      //FieldType type = ProtoToFieldtype(c.second.type());
+      // FieldType type = ProtoToFieldtype(c.second.type());
       vaultdb::types::TypeId type = ProtoToTypeId(c.second.type());
       std::unique_ptr<vaultdb::QueryField> qf;
       switch (type) {

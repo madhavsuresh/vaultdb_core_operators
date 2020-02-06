@@ -16,17 +16,20 @@ class QueryTuple {
 private:
   vaultdb::types::Value dummy_flag_2;
   bool is_encrypted_{};
+
+public:
+  void SetIsEncrypted(bool isEncrypted);
+
+private:
   QueryField fields_4[5];
   int num_fields_{};
 
 public:
   QueryTuple(QueryTuple &t);
 
-  QueryTuple()  {
-    dummy_flag_2.SetValue(types::TypeId::BOOLEAN, false);
-  };
+  QueryTuple() { dummy_flag_2.SetValue(types::TypeId::BOOLEAN, false); };
 
-  QueryTuple(bool is_encrypted): is_encrypted_(is_encrypted) {
+  QueryTuple(bool is_encrypted) : is_encrypted_(is_encrypted) {
     if (is_encrypted_) {
       dummy_flag_2.SetValue(types::TypeId::ENCRYPTED_BOOLEAN, emp::Bit(false));
     } else {
@@ -43,7 +46,6 @@ public:
   void SetDummyFlag(vaultdb::types::Value *v);
   void SetDummyFlag(emp::Bit &flag);
   void SetDummyFlag(bool flag);
-
 };
 
 } // namespace vaultdb

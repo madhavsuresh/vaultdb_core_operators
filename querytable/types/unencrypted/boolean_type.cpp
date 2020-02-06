@@ -7,9 +7,8 @@ namespace vaultdb::types {
 #define BOOL_BINARY(OP)                                                        \
   do {                                                                         \
                                                                                \
-    auto res = Value(left.type_, left.value_.unencrypted_val.bool_val ^        \
-                                     right.value_.unencrypted_val.bool_val);   \
-    return res;                                                                \
+    return Value(left.type_, left.value_.unencrypted_val.bool_val OP           \
+                                 right.value_.unencrypted_val.bool_val);       \
   } while (0)
 
 Value vaultdb::types::BooleanType::CompareEquals(

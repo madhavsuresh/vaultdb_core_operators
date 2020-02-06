@@ -7,7 +7,8 @@
 #include <querytable/expression/expression.h>
 #include <querytable/query_table.h>
 
-void MergeTuples(QueryTuple *output, QueryTuple **tuples, const ProjectList &def) {
+void MergeTuples(QueryTuple *output, QueryTuple **tuples,
+                 const ProjectList &def) {
   for (auto &p : def.pl) {
     auto f = tuples[p.in_table_index]->GetField(p.in_field_index);
     output->PutField(p.out_field_index, f);
@@ -27,8 +28,9 @@ std::unique_ptr<QuerySchema> MergeSchema(std::vector<QuerySchema *> &schemas,
 
 std::unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
                                  const JoinDef &def) {
-  //auto qt = std::make_unique<QueryTable>(left->GetNumTuples()*right->GetNumTuples());
-  QueryTuple* pre_allocated = static_cast<QueryTuple *>(malloc(
+  // auto qt =
+  // std::make_unique<QueryTable>(left->GetNumTuples()*right->GetNumTuples());
+  QueryTuple *pre_allocated = static_cast<QueryTuple *>(malloc(
       sizeof(QueryTuple) * left->GetNumTuples() * right->GetNumTuples()));
   ProjectList pdef;
   pdef.pl.emplace_back(0, 0, 0);
@@ -51,13 +53,15 @@ std::unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
       // t.push_back(&lt);
       // t.push_back(&rt);
       auto output = ex.execute();
+
+      pre_allocated[index].SetIsEncrypted(left->GetIsEncrypted());
       pre_allocated[index].InitDummy();
       MergeTuples(&pre_allocated[index], t, pdef);
       pre_allocated[index].SetDummyFlag(&output);
-      //qt->PutTuple(std::move(tmp));
+      // qt->PutTuple(std::move(tmp));
       index++;
     }
   }
-  std::cout<< sizeof(QueryTuple) << "," << sizeof(types::Value);
+  std::cout << sizeof(QueryTuple) << "," << sizeof(types::Value);
   return nullptr;
 }

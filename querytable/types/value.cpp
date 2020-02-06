@@ -37,7 +37,6 @@ Value::Value(const Value &val)
   case TypeId::VARCHAR:
     throw;
   }
-
 }
 
 Value::Value(TypeId type, int64_t val)
@@ -120,7 +119,6 @@ void Value::SetValue(const Value *v) {
     SetValue(v->type_, *v->value_.emp_bit_);
     break;
   }
-
 }
 void Value::SetValue(TypeId type, int32_t val) {
   type_ = type;
