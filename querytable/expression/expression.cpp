@@ -6,18 +6,23 @@
 #include "common/macros.h"
 namespace vaultdb::expression {
 Expression::Expression(vaultdb::types::Value *v1, ExpressionId id) {
-  values_.push_back(v1);
+  values_[0] = v1;
+  num_values_ = 1;
   id_ = id;
 }
 
 Expression::Expression(types::Value *v1, types::Value *v2, ExpressionId id) {
-  values_.push_back(v1);
-  values_.push_back(v2);
+  values_[0] = v1;
+  values_[1] = v2;
+  num_values_ = 2;
+  //values_.reserve(2);
+  //values_.push_back(v1);
+  //values_.push_back(v2);
   id_ = id;
 }
 
 std::unique_ptr<vaultdb::types::Value> Expression::execute() {
-  switch (values_.size()) {
+  switch (num_values_) {
   case 1: {
     // return EvaluateUnary(values_[0], id_);
   }
@@ -52,6 +57,9 @@ Expression::EvaluateBinary(types::Value *v1, types::Value *v2,
     throw;
   case ExpressionId::SUBSTRING:
     throw;
+  case ExpressionId::AND:
+    return vaultdb::types::Type::GetInstance(v1->GetType())
+        .And(*v1, *v2);
   }
 }
 } // namespace vaultdb::expression

@@ -10,8 +10,8 @@ namespace vaultdb::types {
     switch (left.type_) {                                                      \
     case TypeId::INTEGER32: {                                                  \
       return std::make_unique<Value>(                                          \
-          TypeId::BOOLEAN, left.value_.unencrypted_val.int32_val OP             \
-              right.value_.unencrypted_val.int32_val);                         \
+          TypeId::BOOLEAN, left.value_.unencrypted_val.int32_val OP            \
+                               right.value_.unencrypted_val.int32_val);        \
     }                                                                          \
     case TypeId::INTEGER64: {                                                  \
       return std::make_unique<Value>(                                          \
@@ -33,6 +33,11 @@ std::unique_ptr<Value> vaultdb::types::IntegerType::CompareNotEquals(
     const vaultdb::types::Value &left,
     const vaultdb::types::Value &right) const {
   INT_CMP(!=);
+}
+
+std::unique_ptr<Value> IntegerType::And(const Value &left,
+                                        const Value &right) const {
+  throw;
 }
 IntegerType::IntegerType() {}
 } // namespace vaultdb::types

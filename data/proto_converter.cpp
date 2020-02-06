@@ -9,10 +9,10 @@
 
 vaultdb::types::TypeId ProtoToTypeId(dbquery::OIDType oidtype) {
   switch (oidtype) {
+  case dbquery::INTEGER:
   case dbquery::BIGINT:
     return vaultdb::types::TypeId::INTEGER64;
-  case dbquery::INTEGER:
-    return vaultdb::types::TypeId::INTEGER32;
+    //return vaultdb::types::TypeId::INTEGER32;
   case dbquery::VARCHAR:
     return vaultdb::types::TypeId::VARCHAR;
   case dbquery::NUMERIC:

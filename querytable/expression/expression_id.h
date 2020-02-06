@@ -13,6 +13,7 @@ enum class ExpressionId {
   LESSTHAN,
   GREATERTHAN,
   SUBSTRING,
+  AND,
 };
 
 };

@@ -20,6 +20,9 @@ public:
   [[nodiscard]] virtual std::unique_ptr<Value>
   CompareNotEquals(const Value &left, const Value &right) const = 0;
 
+  [[nodiscard]] virtual std::unique_ptr<Value>
+  And(const Value &left, const Value &right) const = 0;
+
 protected:
   TypeId type_id_;
 };

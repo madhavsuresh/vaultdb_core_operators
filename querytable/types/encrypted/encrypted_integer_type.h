@@ -21,6 +21,8 @@ public:
   CompareEquals(const Value &left, const Value &right) const override;
   [[nodiscard]] std::unique_ptr<Value>
   CompareNotEquals(const Value &left, const Value &right) const override;
+  std::unique_ptr<Value> And(const Value &left,
+                             const Value &right) const override;
 };
 
 } // namespace vaultdb::types
