@@ -26,9 +26,9 @@ int main(int argc, char **argv) {
   PQDataProvider pq = PQDataProvider();
   auto lineitem =
       pq.GetQueryTable("dbname=tpch_unioned",
-                       "SELECT l_orderkey, l_suppkey FROM lineitem LIMIT 500");
+                       "SELECT l_orderkey, l_suppkey FROM lineitem LIMIT 5000");
   auto orders = pq.GetQueryTable("dbname=tpch_unioned",
-                                 "SELECT o_orderkey FROM orders LIMIT 500");
+                                 "SELECT o_orderkey FROM orders LIMIT 5000");
 
   auto supplier = pq.GetQueryTable("dbname=tpch_unioned",
                                    "SELECT s_suppkey FROM supplier LIMIT 100");

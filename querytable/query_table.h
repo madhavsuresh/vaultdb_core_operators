@@ -36,6 +36,8 @@ class QueryTable {
 private:
   void *base_ptr;
   QueryTuple **tuples_2;
+
+  int num_tuples_;
   std::vector<std::unique_ptr<vaultdb::QueryTuple>> tuples_;
   std::unique_ptr<QuerySchema> schema_;
   const bool is_encrypted_;
@@ -43,8 +45,10 @@ private:
 public:
   const bool GetIsEncrypted() const;
   QueryTable();
-  QueryTable(int size);
+  QueryTable(int num_tuples);
   QueryTable(bool is_encrypted_);
+  QueryTable(bool is_encrypted, int num_tuples);
+  void AllocateQueryTuples();
   void SetSchema(std::unique_ptr<QuerySchema> s);
   void PutTuple(std::unique_ptr<vaultdb::QueryTuple> t);
   const QuerySchema *GetSchema() const;

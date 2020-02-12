@@ -14,30 +14,26 @@
 namespace vaultdb {
 class QueryTuple {
 private:
-  vaultdb::types::Value dummy_flag_2;
+  vaultdb::types::Value dummy_flag_;
   bool is_encrypted_{};
-
-public:
-  void SetIsEncrypted(bool isEncrypted);
-
-private:
-  QueryField fields_4[5];
+  QueryField fields_[5];
   int num_fields_{};
 
 public:
   QueryTuple(QueryTuple &t);
 
-  QueryTuple() { dummy_flag_2.SetValue(types::TypeId::BOOLEAN, false); };
+  QueryTuple() { dummy_flag_.SetValue(types::TypeId::BOOLEAN, false); };
 
   QueryTuple(bool is_encrypted) : is_encrypted_(is_encrypted) {
     if (is_encrypted_) {
-      dummy_flag_2.SetValue(types::TypeId::ENCRYPTED_BOOLEAN, emp::Bit(false));
+      dummy_flag_.SetValue(types::TypeId::ENCRYPTED_BOOLEAN, emp::Bit(false));
     } else {
-      dummy_flag_2.SetValue(types::TypeId::BOOLEAN, false);
+      dummy_flag_.SetValue(types::TypeId::BOOLEAN, false);
     }
   }
   void InitDummy();
 
+  void SetIsEncrypted(bool isEncrypted);
   const vaultdb::QueryField *GetField(int ordinal) const;
   const vaultdb::QueryField &GetField(string name) const;
   void PutField(int ordinal, const vaultdb::QueryField &f);

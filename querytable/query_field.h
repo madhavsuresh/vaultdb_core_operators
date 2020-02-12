@@ -16,7 +16,7 @@ namespace vaultdb {
 class QueryField {
 private:
   int field_num_;
-  types::Value value_3;
+  types::Value value_;
 
 public:
   QueryField();

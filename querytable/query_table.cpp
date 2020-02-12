@@ -17,10 +17,18 @@ void QueryTable::SetSchema(std::unique_ptr<QuerySchema> s) {
 const QuerySchema *QueryTable::GetSchema() const { return schema_.get(); }
 
 int QueryTable::GetNumTuples() const { return tuples_.size(); }
-QueryTable::QueryTable() : is_encrypted_(false) { tuples_.reserve(25000); }
-QueryTable::QueryTable(int size) : is_encrypted_(false) {
-  tuples_.reserve(size);
-}
+QueryTable::QueryTable() : is_encrypted_(false), num_tuples_(0) {}
+QueryTable::QueryTable(int num_tuples)
+    : is_encrypted_(false), num_tuples_(num_tuples) {}
 
-QueryTable::QueryTable(bool is_encrypted) : is_encrypted_(is_encrypted) {}
+QueryTable::QueryTable(bool is_encrypted)
+    : is_encrypted_(is_encrypted), num_tuples_(0) {}
+QueryTable::QueryTable(bool is_encrypted, int num_tuples)
+    : is_encrypted_(is_encrypted), num_tuples_(num_tuples) {}
+
 const bool QueryTable::GetIsEncrypted() const { return is_encrypted_; }
+void QueryTable::AllocateQueryTuples() {
+  if (num_tuples_ == 0) {
+    throw;
+  }
+}

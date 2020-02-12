@@ -44,14 +44,9 @@ std::unique_ptr<QueryTable> Join(QueryTable *left, QueryTable *right,
                                 rt.GetField(def.right_index)->GetValue(),
                                 def.id);
 
-      // std::vector<QueryTuple *> t;
       QueryTuple *t[10];
       t[0] = &lt;
       t[1] = &rt;
-
-      // t.reserve(100);
-      // t.push_back(&lt);
-      // t.push_back(&rt);
       auto output = ex.execute();
 
       pre_allocated[index].SetIsEncrypted(left->GetIsEncrypted());
