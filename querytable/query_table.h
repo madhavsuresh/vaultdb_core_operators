@@ -35,25 +35,23 @@ DereferenceIterator<Iterator> dereference_iterator(Iterator t) {
 class QueryTable {
 private:
   void *base_ptr;
-  QueryTuple **tuples_2;
+  QueryTuple *tuples_2;
 
-  int num_tuples_;
+  const unsigned int num_tuples_;
   std::vector<std::unique_ptr<vaultdb::QueryTuple>> tuples_;
   std::unique_ptr<QuerySchema> schema_;
   const bool is_encrypted_;
 
 public:
   const bool GetIsEncrypted() const;
-  QueryTable();
   QueryTable(int num_tuples);
-  QueryTable(bool is_encrypted_);
   QueryTable(bool is_encrypted, int num_tuples);
   void AllocateQueryTuples();
   void SetSchema(std::unique_ptr<QuerySchema> s);
-  void PutTuple(std::unique_ptr<vaultdb::QueryTuple> t);
+  void SetSchema(const QuerySchema* s);
   const QuerySchema *GetSchema() const;
   QueryTuple *GetTuple(int idx) const;
-  int GetNumTuples() const;
+  unsigned int GetNumTuples() const;
 
   typedef DereferenceIterator<
       std::vector<std::unique_ptr<vaultdb::QueryTuple>>::iterator>
@@ -70,6 +68,7 @@ public:
   iterator end() { return dereference_iterator(tuples_.end()); }
   const_iterator end() const { return dereference_iterator(tuples_.end()); }
   const_iterator cend() const { return dereference_iterator(tuples_.cend()); }
+  std::unique_ptr<QuerySchema> ReleaseSchema();
 };
 
 #endif // TESTING_QUERY_TABLE_H

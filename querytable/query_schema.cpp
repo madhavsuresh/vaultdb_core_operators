@@ -13,3 +13,8 @@ QueryFieldDesc *QuerySchema::GetField(int i) const {
   return fields_.at(i).get();
 }
 int QuerySchema::GetNumFields() const { return fields_.size(); }
+QuerySchema::QuerySchema(const QuerySchema &s) {
+  for (int i = 0; i < s.GetNumFields(); i++) {
+    PutField(i, *s.GetField(i));
+  }
+}

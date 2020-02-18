@@ -53,8 +53,8 @@ protected:
   };
   struct value {
     UnencryptedVal unencrypted_val{};
-    std::unique_ptr<emp::Bit> emp_bit_;
-    std::unique_ptr<emp::Integer> emp_integer_;
+    emp::Bit * emp_bit_;
+    emp::Integer * emp_integer_;
     // std::unique_ptr<emp::Float32> emp_float32_;
     // std::unique_ptr<emp::Float> emp_float_;
     // std::unique_ptr<std::vector<emp::Bit>> emp_bit_array_;

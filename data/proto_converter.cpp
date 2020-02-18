@@ -40,10 +40,11 @@ ProtoToQuerySchema(const dbquery::Schema &proto_schema) {
 }
 
 std::unique_ptr<QueryTable> ProtoToQuerytable(const dbquery::Table &t) {
-  auto query_table = std::make_unique<QueryTable>();
+  auto query_table = std::make_unique<QueryTable>(t.row_size());
   query_table->SetSchema(ProtoToQuerySchema(t.schema()));
+  int index = 0;
   for (auto &r : t.row()) {
-    std::unique_ptr<QueryTuple> tup = std::make_unique<QueryTuple>();
+    QueryTuple *tup = query_table->GetTuple(index);
     for (auto &c : r.column()) {
       // FieldType type = ProtoToFieldtype(c.second.type());
       vaultdb::types::TypeId type = ProtoToTypeId(c.second.type());
@@ -72,7 +73,7 @@ std::unique_ptr<QueryTable> ProtoToQuerytable(const dbquery::Table &t) {
       }
       tup->PutField(c.first, std::move(qf));
     }
-    query_table->PutTuple(std::move(tup));
+    index++;
   }
   return query_table;
 }

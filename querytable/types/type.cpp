@@ -12,7 +12,7 @@ vaultdb::types::Type &vaultdb::types::Type::GetInstance(TypeId type_id) {
   switch (type_id) {
 
   case TypeId::INVALID:
-    break;
+    throw;
   case TypeId::BOOLEAN:
     return BooleanType::shared_instance();
   case TypeId::INTEGER32:

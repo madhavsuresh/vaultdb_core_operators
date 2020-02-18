@@ -7,13 +7,13 @@ namespace vaultdb::types {
 
 #define EMP_BOOL_CMP(OP)                                                       \
   do {                                                                         \
-    emp::Bit b = *left.value_.emp_bit_.get() OP * right.value_.emp_bit_.get(); \
+    emp::Bit b = *left.value_.emp_bit_ OP * right.value_.emp_bit_; \
     return Value(left.type_, b);                                               \
   } while (0)
 
 #define EMP_BOOL_BINARY(OP)                                                    \
   do {                                                                         \
-    emp::Bit b = *left.value_.emp_bit_.get() OP * right.value_.emp_bit_.get(); \
+    emp::Bit b = *left.value_.emp_bit_ OP * right.value_.emp_bit_; \
     return Value(left.type_, b);                                               \
   } while (0)
 

@@ -37,5 +37,4 @@ void QueryField::SetQueryField(emp::Integer val, int length, int field_num) {
 }
  */
 
-void QueryField::SetValue(const types::Value *val) { value_.SetValue(val);
-}
+void QueryField::SetValue(const types::Value *val) { value_.SetValue(val); }

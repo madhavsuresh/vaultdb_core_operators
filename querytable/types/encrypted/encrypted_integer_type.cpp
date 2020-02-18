@@ -8,14 +8,14 @@ namespace vaultdb::types {
 #define EMP_INT_CMP(OP)                                                        \
   do {                                                                         \
     emp::Bit b =                                                               \
-        *left.value_.emp_integer_.get() OP * right.value_.emp_integer_.get();  \
+        *left.value_.emp_integer_ OP * right.value_.emp_integer_;  \
     return Value(TypeId::ENCRYPTED_BOOLEAN, b);                                \
   } while (0)
 
 #define EMP_INT_BINARY(OP)                                                     \
   do {                                                                         \
     emp::Integer b =                                                           \
-        *left.value_.emp_integer_.get() OP * right.value_.emp_integer_.get();  \
+        *left.value_.emp_integer_ OP * right.value_.emp_integer_;  \
     return Value(left.type_, b, left.len_);                                    \
   } while (0)
 

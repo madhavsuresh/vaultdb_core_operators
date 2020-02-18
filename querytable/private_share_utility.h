@@ -19,7 +19,7 @@ struct ShareDef {
 };
 std::unique_ptr<QueryTable> ShareData(const QuerySchema *shared_schema,
                                        EmpParty party,
-                                       const QueryTable *input_table,
+                                       QueryTable *input_table,
                                        ShareDef &def);
 
 #endif // TESTING_PRIVATE_SHARE_UTILITY_H

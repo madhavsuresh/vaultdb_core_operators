@@ -21,10 +21,10 @@ Value::Value(const Value &val)
     break;
   case TypeId::ENCRYPTED_INTEGER32:
   case TypeId::ENCRYPTED_INTEGER64:
-    Value(val.type_, *(val.value_.emp_integer_.get()), val.len_);
+    Value(val.type_, *(val.value_.emp_integer_), val.len_);
     break;
   case TypeId::ENCRYPTED_BOOLEAN:
-    Value(val.type_, *(val.value_.emp_bit_.get()));
+    Value(val.type_, *(val.value_.emp_bit_));
     break;
   case TypeId::INVALID:
   case TypeId::FLOAT32:
@@ -55,12 +55,12 @@ Value::Value(TypeId type, bool val)
 
 Value::Value(TypeId type, emp::Bit val)
     : type_(type), len_(sizeof(bool)), is_encrypted_(true) {
-  value_.emp_bit_ = std::make_unique<emp::Bit>(val.bit);
+  value_.emp_bit_ = new emp::Bit(val.bit);
 }
 
 Value::Value(TypeId type, const emp::Integer val, int len)
     : type_(type), len_(len), is_encrypted_(true) {
-  value_.emp_integer_ = std::make_unique<emp::Integer>(val);
+  value_.emp_integer_ = new emp::Integer(val);
 }
 
 TypeId Value::GetType() const { return Value::type_; }
@@ -142,12 +142,12 @@ void Value::SetValue(TypeId type, emp::Bit val) {
   type_ = type;
   is_encrypted_ = true;
   len_ = 1;
-  value_.emp_bit_ = std::make_unique<emp::Bit>(val.bit);
+  value_.emp_bit_ = new emp::Bit(val.bit);
 }
 void Value::SetValue(TypeId type, emp::Integer val, int len) {
   type_ = type;
   is_encrypted_ = true;
   len_ = len;
-  value_.emp_integer_ = std::make_unique<emp::Integer>(val);
+  value_.emp_integer_ = new emp::Integer(val);
 }
 } // namespace vaultdb::types

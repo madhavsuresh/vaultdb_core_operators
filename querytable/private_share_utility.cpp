@@ -34,11 +34,11 @@ std::unique_ptr<emp::Batcher> GetBatcher(ShareCount &c,
 }
 
 void AddToTable(QueryTable *t, const QuerySchema *shared_schema,
-                emp::Batcher *b, ShareCount &c) {
+                emp::Batcher *b, ShareCount &c, int insert_offset) {
 
   for (int i = 0; i < c.num_tuples; i++) {
-    std::unique_ptr<QueryTuple> tup =
-        std::make_unique<QueryTuple>(true /* is_encrypted */);
+    QueryTuple *tup = t->GetTuple(i + insert_offset);
+    tup->SetIsEncrypted(true);
     for (int ordinal = 0; ordinal < shared_schema->GetNumFields(); ordinal++) {
       std::unique_ptr<vaultdb::QueryField> qf;
       switch (shared_schema->GetField(ordinal)->GetType()) {
@@ -52,13 +52,12 @@ void AddToTable(QueryTable *t, const QuerySchema *shared_schema,
       }
       tup->PutField(ordinal, std::move(qf));
     }
-    t->PutTuple(std::move(tup));
   }
 }
 
 std::unique_ptr<QueryTable> ShareData(const QuerySchema *shared_schema,
                                       EmpParty party,
-                                      const QueryTable *input_table,
+                                      QueryTable *input_table,
                                       ShareDef &def) {
 
   // TODO(madhavsuresh): copy the schema over to the new table. need to make
@@ -78,14 +77,18 @@ std::unique_ptr<QueryTable> ShareData(const QuerySchema *shared_schema,
       static_cast<int>(EmpParty::ALICE));
   batcher_map[EmpParty::BOB]->make_semi_honest(static_cast<int>(EmpParty::BOB));
 
-  std::unique_ptr<QueryTable> output_table =
-      std::make_unique<QueryTable>(true /* is_encrypted_ */);
+  std::unique_ptr<QueryTable> output_table = std::make_unique<QueryTable>(
+      true /* is_encrypted_ */, def.share_map[EmpParty::ALICE].num_tuples +
+                                    def.share_map[EmpParty::BOB].num_tuples);
 
   AddToTable(output_table.get(), shared_schema,
-             batcher_map[EmpParty::ALICE].get(),
-             def.share_map[EmpParty::ALICE]);
+             batcher_map[EmpParty::ALICE].get(), def.share_map[EmpParty::ALICE],
+             0);
 
   AddToTable(output_table.get(), shared_schema,
-             batcher_map[EmpParty::BOB].get(), def.share_map[EmpParty::BOB]);
+             batcher_map[EmpParty::BOB].get(), def.share_map[EmpParty::BOB],
+             def.share_map[EmpParty::ALICE].num_tuples);
+  //TODO(madhavsuresh): this should really be with a copy constructor
+  output_table->SetSchema(input_table->GetSchema());
   return output_table;
 }

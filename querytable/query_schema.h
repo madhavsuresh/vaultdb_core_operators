@@ -15,7 +15,6 @@
 class QuerySchema {
 private:
   std::map<int, std::unique_ptr<QueryFieldDesc>> fields_;
-  size_t length_of_tuple;
 
 public:
   [[nodiscard]] int GetNumFields() const;
@@ -30,7 +29,7 @@ public:
 
   explicit QuerySchema(int num_fields);
 
-  QuerySchema(QuerySchema &s);
+  QuerySchema(const QuerySchema &s);
 
   [[nodiscard]] QueryFieldDesc *GetField(int i) const;
 };
