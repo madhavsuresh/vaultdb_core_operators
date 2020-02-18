@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
   JoinDef x = {.left_index = 0, .right_index = 0};
   x.id = vaultdb::expression::ExpressionId::EQUAL;
   auto start = std::chrono::system_clock::now();
-  auto s_OL = Join(s_orders.get(), s_lineitem.get(), x);
+  auto s_OL = Join(orders.get(), lineitem.get(), x);
   auto end = std::chrono::system_clock::now();
   std::chrono::duration<double> elapsed_seconds = end - start;
   std::time_t end_time = std::chrono::system_clock::to_time_t(end);
@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
   std::cout << "finished computation at " << std::ctime(&end_time)
             << "elapsed time: " << elapsed_seconds.count() << "s\n";
   JoinDef y = {.left_index = 0, .right_index = 0};
-  auto s_OLS = Join(s_OL.get(), s_supplier.get(), x);
+  auto s_OLS = Join(s_OL.get(), supplier.get(), x);
   std::cout << "NUM TUPLES :" << s_OL->GetNumTuples() << ", "
             << s_OLS->GetNumTuples();
 }
