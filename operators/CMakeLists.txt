@@ -1,4 +1,4 @@
-add_library(secure_operators secure_join.cpp filter.cpp )
+add_library(secure_operators secure_join.cpp filter.cpp secure_aggregate.cpp secure_aggregate.h)
 target_link_libraries(secure_operators pqxx_compat krpc dataprovider query_table types)
 
 add_executable(secure_join_test secure_join_test.cpp)
